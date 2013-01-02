@@ -6,12 +6,8 @@
 
 This task makes use of PhantomJS to drive the casperJS scripts in a headless manner.
 
-You will need to install [phantomjs][], with a fairly simple package [install][]
-After [phantomjs][] is installed, you will need to install [casperjs][]
-
-[casperjs] : http://casperjs.org/installation.html
-[phantomjs] : http://phantomjs.org/
-[install] : http://phantomjs.org/download.html
+You will need to install [phantomjs](http://phantomjs.org/), with a fairly simple package [install](http://phantomjs.org/download.html)
+After [phantomjs](http://phantomjs.org/) is installed, you will need to install [casperjs](http://casperjs.org/installation.html)
 
 Now install the grunt task
 
@@ -23,17 +19,13 @@ npm install grunt-casper --save
 
 CasperJS is a navigation scripting & testing utility for PhantomJS. It eases the process of defining a full navigation scenario and provides useful high-level functions, methods & syntaxic sugar for doing common tasks in a headless browser.
 
-If you haven't used [casperjs][] before, be sure to check out the [Get Started][] guide, as it explains how to create your first test case.
+If you haven't used [casperjs](http://casperjs.org/) before, be sure to check out the [Get Started](http://casperjs.org/quickstart.html) guide, as it explains how to create your first test case.
 
-[casperjs]: http://casperjs.org/
-[Get Started]: http://casperjs.org/quickstart.html
 
 ## casperjs task
 _Run this task with the `grunt casperjs` command._
 
-_This task is a [multi task][] so any targets, files and options should be specified according to the [multi task][] documentation._
-[multi task]: https://github.com/gruntjs/grunt/wiki/Configuring-tasks
-
+_This task is a [multi task](https://github.com/gruntjs/grunt/wiki/Configuring-tasks) so any targets, files and options should be specified according to the [multi task][] documentation._
 
 ### Options
 
