@@ -3,3 +3,12 @@ node_js:
   - 0.8
 before_script:
   - npm install -g grunt-cli
+
+  - wget http://phantomjs.googlecode.com/files/phantomjs-1.7.0-linux-i686.tar.bz2
+  - tar -xf phantomjs-1.7.0-linux-i686.tar.bz2
+  - sudo rm -rf /usr/local/phantomjs
+  - sudo mv phantomjs-1.7.0-linux-i686 /usr/local/phantomjs
+
+  - wget -nv https://github.com/n1k0/casperjs/zipball/1.0.0
+  - unzip -q 1.0.0
+  - sudo ln -s `pwd`/n1k0-casperjs-*/bin/casperjs /usr/local/bin/casperjs
