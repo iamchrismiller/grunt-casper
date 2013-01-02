@@ -1,0 +1,25 @@
+{
+  "name": "grunt-casper",
+  "description": "Run Casper CLI Scripts With Grunt",
+  "version": "0.1.0",
+  "author": {
+    "name": "Chris Miller",
+    "email": "cmille142@gmail.com",
+    "url": "http://chris-miller.me"
+  },
+  "devDependencies": {
+    "grunt-contrib-internal": "~0.1.0",
+    "grunt-contrib-jshint": "~0.1.0",
+    "grunt-contrib-nodeunit": "~0.1.0",
+    "grunt": "~0.4.0"
+  },
+  "keywords": [
+    "gruntjs",
+    "casperjs",
+    "grunt-casperjs",
+    "grunt-casper"
+  ],
+  "dependencies": {
+    "grunt-lib-contrib": "~0.4.0"
+  }
+}
