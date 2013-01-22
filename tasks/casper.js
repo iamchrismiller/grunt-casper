@@ -6,7 +6,7 @@ module.exports = function (grunt) {
   //@TODO backwards compat - remove after grunt v0.4 is released
   grunt.util = grunt.util || grunt.utils;
 
-  grunt.registerMultiTask('casperjs', 'execute casperjs tasks', function () {
+  grunt.registerMultiTask('casper', 'execute casperjs tasks', function () {
 
     var helpers = require('grunt-lib-contrib').init(grunt);
     var options = helpers.options(this, {});
