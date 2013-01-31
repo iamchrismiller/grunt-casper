@@ -1,22 +1,9 @@
 exports.init = function (grunt) {
   'use strict';
 
-  var path = require('path');
   var exports = {};
 
-  //supported casper options
-  var supportedScriptOptions = {
-    //must get the save from cli in each script
-    //test.renderResults(true, 0, this.cli.get('save') || false);
-    save : function (outputDir, casperFile) {
-      if (outputDir.substr(-1) !== '/') outputDir += '/';
-      console.log('--save=' + outputDir + casperFile.replace('.js', '') + '-results.xml');
-      return '--save=' + outputDir + casperFile.replace('.js', '') + '-results.xml'
-    }
-  };
-
-  var supportedTestOptions = {
-    save : supportedScriptOptions.save,
+  var testOnlyOptions = {
     pre         : true,
     post        : true,
     includes    : true,
@@ -25,53 +12,57 @@ exports.init = function (grunt) {
     'fail-fast' : true
   };
 
-  function spawn(options,next) {
+  function spawn(options,next,done) {
     grunt.verbose.write('Spawning casperjs with options: ' + options + '\n');
     grunt.util.spawn({
       cmd  : 'casperjs',
       args : options
     }, function (errorObj, result, code) {
-      if (result.stdout) grunt.log.write(result.stdout + '\n\n');
-      if (result.stderr) grunt.log.write(result.stderr + '\n\n');
+      if (code > 0) {
+        grunt.log.error(result.stdout);
+        return done(false);
+      }
+      if (result.stdout) grunt.verbose.write(result.stdout + '\n\n');
+      if (result.stderr) grunt.verbose.write(result.stderr + '\n\n');
       next();
     });
   }
 
-  exports.spawnCasper = function(src, options, next) {
+  exports.spawnCasper = function(src, dest, options, next, done) {
     grunt.verbose.write('Preparing casperjs spawn\n');
-    var spawnOpts = [], supported;
+    var spawnOpts = [];
 
-    //casper test
+
     if (options.test) {
       spawnOpts.push('test');
-      supported = supportedTestOptions;
-      src.forEach(function(file) {
-        spawnOpts.push(path.relative(process.cwd(), file));
-      });
-      delete(options.test);
     } else {
-      //casper script
-      spawnOpts.push(src);
-      supported = supportedScriptOptions;
+      grunt.util._.forEach(options, function(value, option){
+        if (testOnlyOptions[option]) {
+          grunt.log.warn('Option ' + option + ' only available in test mode');
+        }
+      });
     }
 
     //add direct flag for printing logs to screen
-    if (options['log-level'] && !options.direct) spawnArgs.push('--direct');
+    if (options['log-level'] && !options.direct) spawnOpts.push('--direct');
 
-    for (var option in options) {
-      if (supported[option]) {
-        if (grunt.util._.isFunction(supported[option])) {
-          spawnOpts.push(supported[option](options[option], path.basename(src)));
-        } else {
-          var currentOption = '--' + option + '=' + options[option];
-          grunt.verbose.write('Adding Option ' + currentOption + '\n');
-          spawnOpts.push(currentOption);
-        }
-      } else {
-        grunt.log.write("CasperJS Option --" + option + ' not supported\n');
+    grunt.util._.forEach(options,function(value, option) {
+      if (option === 'test') return;
+      var currentOption = '--' + option + '=' + value;
+      grunt.verbose.write('Adding Option ' + currentOption + '\n');
+      spawnOpts.push(currentOption);
+    });
+
+    if (dest) {
+      if (typeof dest === 'function') {
+        dest = dest(src);
       }
+      spawnOpts.push('--save=' + dest);
     }
-    spawn(spawnOpts,next);
+
+    spawnOpts.push(src);
+
+    spawn(spawnOpts,next,done);
   };
 
   return exports;

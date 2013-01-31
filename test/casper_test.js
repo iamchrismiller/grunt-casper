@@ -1,41 +1,40 @@
 'use strict';
 
 var grunt = require('grunt');
-var fs = require('fs');
+var path = require('path'),
+    fs = require('fs');
+
+var actualDir = path.join('tmp','casper'), expectedDir = path.join('test','expected');
+
+// Is there a way to specify the classname?
+function stripRelative(source) {
+  return source.replace(/classname="[^"]+"/g,'classname="STRIPPED"');
+}
 
 exports.casper = {
 
-  passTest : function(test) {
-    'use strict';
-    test.expect(1);
+  tests : function(test) {
+    var files = [
+      'testPass-results.xml',
+      'testFail-results.xml',
+      'testIncludes-results.xml'
+    ];
 
-    var actual = grunt.file.read('tmp/casper/testPass-results.xml');
-    var expected = grunt.file.read('test/expected/testPass-results.xml');
-    test.equal(actual, expected, 'should Pass all casper tests');
+    test.expect(files.length);
 
-    test.done();
-  },
+    files.forEach(function(file){
+      var actual = grunt.file.read(path.join(actualDir, file));
+      var expected = grunt.file.read(path.join(expectedDir, file));
 
-  failTest : function(test) {
-    'use strict';
-    test.expect(1);
+      test.equal(stripRelative(actual), stripRelative(expected), 'should Pass all casper tests');
+    });
 
-    var actual = grunt.file.read('tmp/casper/testFail-results.xml');
-    var expected = grunt.file.read('test/expected/testFail-results.xml');
-    test.equal(actual, expected, 'should Fail one casper test');
 
     test.done();
   },
-
-  includes : function(test) {
-    'use strict';
+  screenshot : function(test) {
     test.expect(1);
-
-    var actual = grunt.file.read('tmp/casper/testIncludes-results.xml');
-    var expected = grunt.file.read('test/expected/testIncludes-results.xml');
-    test.equal(actual, expected, 'should include (includes) files');
-
+    test.ok(fs.existsSync('tmp/test.png','Screenshot should exist'));
     test.done();
   }
-
 };
