@@ -1,6 +1,8 @@
+var casper = require("casper").create();
+
 casper.start('test/fixtures/basicSite.html');
 
- casper.then(function() {
+casper.then(function() {
    this.test.assertTitle('Test Title');
    this.test.assertExists('h1', 'Header Exists');
    this.test.assertExists('p', 'P Tag Exists');
