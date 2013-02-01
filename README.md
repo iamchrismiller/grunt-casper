@@ -29,131 +29,75 @@ _This task is a [multi task](https://github.com/gruntjs/grunt/wiki/Configuring-t
 
 ### Options
 
+#### Grunt 'dest'
+Type: `String` `Function`
+
+The 'dest' option in Grunt's configuration is passed as the --save option to casper, allowing you to access
+   your destination programmatically. If passed as a function, the return value will be used.
+
 #### test
-Type: ```boolean```
+Type: `Boolean`
 Default: false
 
 Run the casperjs script(s) in test mode. Thus allowing you to split up your tests (casperjs test tests/)
 
-#### save
-Type: ```string```
-Default: null
-
-Allows you to export the results of the test suite to an xUnit XML file, which is compatible with continuous integration tools such as Jenkins.
-
-```js
-options: {
-  save : 'tmp/casper'
-}
-```
-
 #### includes
-Type: ```string```
-Default: null
+Type: `String`
+Default: undefined
 
-Allows you to "include" scripts before executing tests. Allowing you to share test methods, etc.
-
-```js
-jst: {
-  compile: {
-    options: {
-      test : true,
-      includes : 'path/to/includes.js'
-    },
-     src: ['path/to/tests.js']
-  }
-}
-```
+Comma separated list of scripts to "include" before executing tests.
 
 #### pre
-Type: ```string```
-Default: null
+Type: `String`
+Default: undefined
 
-Allows you to add tests before executing the test suite
-
-```js
-jst: {
-  compile: {
-    options: {
-      test : true,
-      pre : 'path/to/pre.js'
-    },
-     src: ['path/to/tests.js']
-  }
-}
-```
+Scripts to be executed before the test suite
 
 #### post
-Type: ```string```
-Default: null
+Type: `String`
+Default: undefined
 
-Allows you to add tests after executing the entire test suite
-
-```js
-jst: {
-  compile: {
-    options: {
-      test : true,
-      post : 'path/to/post.js'
-    },
-     src: ['path/to/tests.js']
-  }
-}
-```
+Scripts to be executed after the test suite
 
 #### direct
-Type: ```boolean```
+Type: `Boolean`
 Default: false
 
-Casper will output log messages directly to the console
-
-```javascript
-options: {
-  direct: true
-}
-```
+Output log messages directly to the console
 
 #### log-level
-Type: ```string```
-Default: filter under error
-Options: debug info warning error
+Type: `String`
+Default: `error`
+Options: `debug` `info` `warning` `error`
 
 Sets the casperjs logging level
 
-
-```javascript
-options: {
-  'log-level': 'error'
-}
-```
-
 #### fail-fast
-Type: ```boolean```
+Type: `boolean`
+Default: false
 
-This option with allow for early test suite termination as soon as a first failure is encountered.
-
-```javascript
-options: {
-  'fail-fast': true
-}
-```
+Terminate as soon as a first failure is encountered.
 
 ### Usage Examples
 
+Basic usage
 ```js
-
-casperjs : {
- functionalTests : {
-      options : {
-        test : true,
-        save : 'tmp/casper',
-        includes : 'test/includes/inc.js'
-      },
-      src: ['test/functionalTests.js']
+casper : {
+ yourTask : {
+    options : {
+      test : true
+    },
+    files : {
+      'xunit/casper-results.xml' : ['test/functionalTests.js']
     }
+  }
 }
+```
 
-casperjs : {
+Global options and custom destination
+
+```js
+casper : {
   options : {
     test : true,
     includes : 'path/to/inc.js',
@@ -162,10 +106,14 @@ casperjs : {
     'log-level' : 'warning',
     'fail-fast' : true
   },
-  src: ['path/to/tests/*_test.js']
+  yourTask : {
+    src: ['path/to/tests/*_test.js'],
+    dest : function(input) {
+      return input.replace(/\.js$/,'.xml');
+    }
+  }
 }
 ```
-
 
 ## Release History
 
