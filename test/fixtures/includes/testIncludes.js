@@ -1,3 +1,4 @@
+
 casper.test.comment("Casper includes test started");
 
 //defined in inc.js
