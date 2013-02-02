@@ -1,0 +1,1 @@
+<testsuite><testcase classname="test/fixtures/testPass.js" name="Page title is: &quot;Test Title&quot;" time="1359763500.56"></testcase><testcase classname="test/fixtures/testPass.js" name="Header Exists" time="0.001"></testcase><testcase classname="test/fixtures/testPass.js" name="P Tag Exists" time="0.001"></testcase></testsuite>

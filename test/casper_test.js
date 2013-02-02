@@ -8,7 +8,7 @@ var actualDir = path.join('tmp','casper'), expectedDir = path.join('test','expec
 
 // Is there a way to specify the classname?
 function stripRelative(source) {
-  return source.replace(/classname="[^"]+"/g,'classname="STRIPPED"');
+  return source.replace(/classname="[^"]+"/g,'classname="STRIPPED"').replace(/time="[^"]+"/g,'time="123"');
 }
 
 exports.casper = {
