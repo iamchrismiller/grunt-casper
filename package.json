@@ -1,7 +1,7 @@
 {
   "name": "grunt-casper",
   "description": "Run Casper CLI Scripts With Grunt",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Chris Miller",
     "email": "cmille142@gmail.com",
