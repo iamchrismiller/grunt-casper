@@ -1,4 +1,4 @@
-# grunt-casper
+# grunt-casper [![Build Status](https://secure.travis-ci.org/iamchrismiller/grunt-casper.png?branch=master)](http://travis-ci.org/iamchrismiller/grunt-casper)
 
 > Run CasperJS Scripts/Functional Tests
 
