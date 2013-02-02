@@ -4,6 +4,8 @@ node_js:
 before_script:
   - npm install -g grunt-cli
 
+  - phantomjs --version
+
   - wget http://phantomjs.googlecode.com/files/phantomjs-1.8.1-linux-i686.tar.bz2
   - tar -xf phantomjs-1.8.1-linux-i686.tar.bz2
   - sudo rm -rf /usr/local/phantomjs
