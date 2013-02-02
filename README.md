@@ -117,6 +117,7 @@ casper : {
 
 ## Release History
 
+ * 2013-02-01   v0.1.1   Update Task To Run With grunt0.4.0rc7
  * 2013-01-01   v0.1.0   Initial Release
 
 ---
