@@ -115,6 +115,24 @@ casper : {
 }
 ```
 
+### Options and Arguments
+CasperJS supports options and arguments on the [command line](http://docs.casperjs.org/en/latest/cli.html).
+
+`casperjs test.js baz --foo=bar`
+
+Grunt tasks can accept additional arguments and grunt-casper will pass these through to CasperJS, for instance
+
+`grunt casper:yourTask:baz:--foo=bar`
+
+will pass `baz` as an argument and `foo` as an option with a value of `bar`.  These are then available in your CasperJS script 
+
+```js
+casper.cli.args.indexOf('baz'); // 0
+casper.cli.options.foo; //bar
+```
+
+Arguments and options will be ignored in `test` mode as CasperJS does not support them.
+
 ## Release History
 
  * 2013-02-01   v0.1.1   Update Task To Run With grunt0.4.0rc7
