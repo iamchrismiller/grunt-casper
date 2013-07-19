@@ -28,7 +28,7 @@ exports.init = function (grunt) {
     });
   }
 
-  exports.spawnCasper = function(src, dest, options, next, done) {
+  exports.spawnCasper = function(src, dest, options, args, next, done) {
     grunt.verbose.write('Preparing casperjs spawn\n');
     var spawnOpts = [];
 
@@ -61,6 +61,14 @@ exports.init = function (grunt) {
     }
 
     spawnOpts.push(src);
+    
+    if (args.length > 0) {
+      if (options.test) {
+        grunt.log.warn('Arguments not supported for test mode');
+      } else {
+        spawnOpts = spawnOpts.concat(args);
+      }
+    }
 
     spawn(spawnOpts,next,done);
   };

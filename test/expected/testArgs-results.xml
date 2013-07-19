@@ -1,0 +1,1 @@
+<testsuite><testcase classname="test/fixtures/testArgs.js" name="expected baz to be an argument" time="0.307"></testcase><testcase classname="test/fixtures/testArgs.js" name="expected foo to be an option" time="0.001"></testcase><testcase classname="test/fixtures/testArgs.js" name="expected foo option to be bar" time="0"></testcase></testsuite>
