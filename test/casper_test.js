@@ -16,6 +16,7 @@ exports.casper = {
   tests : function(test) {
     var files = [
       'testPass-results.xml',
+      'testArgs-results.xml',
       'testFail-results.xml',
       'testIncludes-results.xml'
     ];
