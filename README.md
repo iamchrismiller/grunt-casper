@@ -135,6 +135,7 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
+ * 2013-08-10   v0.1.2   Added xunit support
  * 2013-02-01   v0.1.1   Update Task To Run With grunt0.4.0rc7
  * 2013-01-01   v0.1.0   Initial Release
 
