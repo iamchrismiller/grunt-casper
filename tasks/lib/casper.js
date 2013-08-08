@@ -9,7 +9,8 @@ exports.init = function (grunt) {
     includes    : true,
     direct      : true,
     'log-level' : true,
-    'fail-fast' : true
+    'fail-fast' : true,
+    'xunit'     : true
   };
 
   function spawn(options,next,done) {
@@ -32,6 +33,11 @@ exports.init = function (grunt) {
     grunt.verbose.write('Preparing casperjs spawn\n');
     var spawnOpts = [];
 
+    if (options.xunit) {
+      if (typeof options.xunit === 'function') {
+        options.xunit = options.xunit(src);
+      }
+    }
 
     if (options.test) {
       spawnOpts.push('test');
