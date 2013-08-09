@@ -9,7 +9,8 @@ exports.init = function (grunt) {
     includes    : true,
     direct      : true,
     'log-level' : true,
-    'fail-fast' : true
+    'fail-fast' : true,
+    'xunit'     : true
   };
 
   function spawn(options,next,done) {
@@ -28,10 +29,17 @@ exports.init = function (grunt) {
     });
   }
 
-  exports.spawnCasper = function(src, dest, options, next, done) {
+  exports.spawnCasper = function(src, dest, options, args, next, done) {
     grunt.verbose.write('Preparing casperjs spawn\n');
     var spawnOpts = [];
 
+    if (options.xunit_out) {
+      if (typeof options.xunit_out === 'function') {
+        options.xunit = options.xunit_out(src);
+      } else {
+        options.xunit = options.xunit_out;
+      }
+    }
 
     if (options.test) {
       spawnOpts.push('test');
@@ -48,6 +56,7 @@ exports.init = function (grunt) {
 
     grunt.util._.forEach(options,function(value, option) {
       if (option === 'test') return;
+      if (option === 'xunit_out') return;
       var currentOption = '--' + option + '=' + value;
       grunt.verbose.write('Adding Option ' + currentOption + '\n');
       spawnOpts.push(currentOption);
@@ -61,6 +70,14 @@ exports.init = function (grunt) {
     }
 
     spawnOpts.push(src);
+    
+    if (args.length > 0) {
+      if (options.test) {
+        grunt.log.warn('Arguments not supported for test mode');
+      } else {
+        spawnOpts = spawnOpts.concat(args);
+      }
+    }
 
     spawn(spawnOpts,next,done);
   };

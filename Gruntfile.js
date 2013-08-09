@@ -23,6 +23,14 @@ module.exports = function (grunt) {
           'tmp/casper/testPass-results.xml' : ['test/fixtures/testPass.js']
         }
       },
+      args: {
+        options: {
+          test: false
+        },
+        files: {
+          'tmp/casper/testArgs-results.xml': ['test/fixtures/testArgs.js']
+        }
+      },
       fail : {
         files : {
           'tmp/casper/testFail-results.xml' : ['test/fixtures/testFail.js']
@@ -66,7 +74,15 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-internal');
-  grunt.registerTask('caspertests', ['clean', 'casper:pass', 'casper:multiple', 'casper:includes', 'casper:screenshots','spawnFailure']);
+  
+  /* can't pass arguments to alias tasks but we can use grunt.task.run */
+  grunt.registerTask('casperargs', function() {
+    var args = ['casper','args'].concat(Array.prototype.slice.call(arguments));
+    grunt.log.writeln(args.join(':'));
+    grunt.task.run(args.join(':'));
+  });
+  
+  grunt.registerTask('caspertests', ['clean', 'casper:pass', 'casperargs:baz:--foo=bar', 'casper:multiple', 'casper:includes', 'casper:screenshots','spawnFailure']);
 
   grunt.registerTask('test', ['jshint', 'caspertests', 'nodeunit']);
   grunt.registerTask('default', ['test']);
