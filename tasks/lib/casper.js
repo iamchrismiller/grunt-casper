@@ -23,8 +23,8 @@ exports.init = function (grunt) {
         grunt.log.error(result.stdout);
         return done(false);
       }
-      if (result.stdout) grunt.verbose.write(result.stdout + '\n\n');
-      if (result.stderr) grunt.verbose.write(result.stderr + '\n\n');
+      if (result.stdout) grunt.log.write(result.stdout + '\n\n');
+      if (result.stderr) grunt.log.write(result.stderr + '\n\n');
       next();
     });
   }
