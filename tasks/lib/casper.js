@@ -13,11 +13,14 @@ exports.init = function (grunt) {
     'xunit'     : true
   };
 
-  function spawn(options,next,done) {
+  function spawn(cwd,options,next,done) {
     grunt.verbose.write('Spawning casperjs with options: ' + options + '\n');
     grunt.util.spawn({
       cmd  : 'casperjs',
-      args : options
+      args : options,
+      opts : {
+        cwd : cwd
+      }
     }, function (errorObj, result, code) {
       if (code > 0) {
         grunt.log.error(result.stdout);
@@ -32,6 +35,7 @@ exports.init = function (grunt) {
   exports.spawnCasper = function(src, dest, options, args, next, done) {
     grunt.verbose.write('Preparing casperjs spawn\n');
     var spawnOpts = [];
+    var cwd = options.cwd || process.cwd();
 
     if (options.xunit_out) {
       if (typeof options.xunit_out === 'function') {
@@ -70,7 +74,7 @@ exports.init = function (grunt) {
     }
 
     spawnOpts.push(src);
-    
+
     if (args.length > 0) {
       if (options.test) {
         grunt.log.warn('Arguments not supported for test mode');
@@ -79,7 +83,7 @@ exports.init = function (grunt) {
       }
     }
 
-    spawn(spawnOpts,next,done);
+    spawn(cwd,spawnOpts,next,done);
   };
 
   return exports;
