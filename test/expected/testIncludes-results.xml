@@ -1,1 +1,1 @@
-<testsuite><testcase classname="/usr/local/Cellar/casperjs/1.0.0/libexec/tests/run.js" name="testFunction-assertion" time="1359763664.469"></testcase></testsuite>
+<?xml version="1.0" encoding="UTF-8"?><testsuites duration="123"><testsuite name="Basic Site Testing With Includes" tests="1" failures="0" errors="0" time="123" timestamp="123" package="test/fixtures/includes/testIncludes"><testcase name="testFunction-assertion" classname="STRIPPED" time="123"></testcase><system-out></system-out></testsuite></testsuites>

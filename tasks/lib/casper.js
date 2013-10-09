@@ -13,11 +13,12 @@ exports.init = function (grunt) {
     'xunit'     : true
   };
 
-  function spawn(cwd,options,next,done) {
-    grunt.verbose.write('Spawning casperjs with options: ' + options + '\n');
+  function spawn(cwd,args,next,done) {
+    grunt.verbose.write('Spawning casperjs with args: ' + args + '\n');
+
     grunt.util.spawn({
       cmd  : 'casperjs',
-      args : options,
+      args : args,
       opts : {
         cwd : cwd
       }
@@ -70,7 +71,7 @@ exports.init = function (grunt) {
       if (typeof dest === 'function') {
         dest = dest(src);
       }
-      spawnOpts.push('--save=' + dest);
+      spawnOpts.push('--xunit=' + dest);
     }
 
     spawnOpts.push(src);

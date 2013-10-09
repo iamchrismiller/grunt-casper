@@ -1,16 +1,17 @@
-var casper = require("casper").create();
+casper.test.begin('Basic Site Testing Fail Tests', 4, function suite(test) {
 
-casper.start('test/fixtures/basicSite.html');
+  casper.start('test/fixtures/basicSite.html', function() {
 
-casper.then(function() {
-   this.test.assertTitle('Test Title');
-   this.test.assertExists('h1', 'Header Exists');
-   this.test.assertExists('p', 'P Tag Exists');
-   //Fail Case
-   this.test.assertExists('span', 'Should Fail - Span Tag Does Not Exist');
- });
+    test.assertTitle('Test Title');
+    test.assertExists('h1', 'Header Exists');
+    test.assertExists('p', 'P Tag Exists');
+    //Fail Case
+    test.assertExists('span', 'Should Fail - Span Tag Does Not Exist');
 
-casper.run(function() {
-  this.test.done(4);
-  this.test.renderResults(true, 0, this.cli.get('save') || false);
+  });
+
+  casper.run(function() {
+    test.done();
+  });
+
 });

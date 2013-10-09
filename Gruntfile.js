@@ -78,11 +78,20 @@ module.exports = function (grunt) {
   /* can't pass arguments to alias tasks but we can use grunt.task.run */
   grunt.registerTask('casperargs', function() {
     var args = ['casper','args'].concat(Array.prototype.slice.call(arguments));
-    grunt.log.writeln(args.join(':'));
+
+    grunt.log.writeln(args);
+
     grunt.task.run(args.join(':'));
   });
   
-  grunt.registerTask('caspertests', ['clean', 'casper:pass', 'casperargs:baz:--foo=bar', 'casper:multiple', 'casper:includes', 'casper:screenshots','spawnFailure']);
+  grunt.registerTask('caspertests', [
+    'clean',
+    'casper:pass',
+    'casper:multiple',
+    'casper:includes',
+    'casper:screenshots',
+    'spawnFailure'
+  ]);
 
   grunt.registerTask('test', ['jshint', 'caspertests', 'nodeunit']);
   grunt.registerTask('default', ['test']);

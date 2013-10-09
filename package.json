@@ -14,11 +14,11 @@
     }
   ],
   "devDependencies": {
-    "grunt-contrib-internal": "~0.1.0",
-    "grunt-contrib-jshint": "~0.1.1rc6",
-    "grunt-contrib-nodeunit": "~0.1.2rc6",
-    "grunt": "~0.4.0rc7",
-    "grunt-contrib-clean": "~0.4.0rc6"
+    "grunt-contrib-internal": "~0.4.6",
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-nodeunit": "~0.2.1",
+    "grunt": "~0.4.1"
   },
   "scripts": {
     "test": "grunt test"
@@ -31,6 +31,7 @@
     "grunt-casper"
   ],
   "dependencies": {
-    "grunt-lib-contrib": "~0.4.0"
+    "grunt-lib-contrib": "~0.4.0",
+    "grunt-contrib-internal": "~0.4.6"
   }
 }

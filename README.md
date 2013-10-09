@@ -135,7 +135,6 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
-
  * 2013-10-08   v0.1.4   Merged pull request - cwd spawn option
  * 2013-09-05   v0.1.3   Fixed logging from grunt.verbose -> grunt.log
  * 2013-08-10   v0.1.2   Added xunit support
