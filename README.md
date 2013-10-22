@@ -102,7 +102,8 @@ casper : {
  yourTask : {
     options : {
       test : true,
-      parallel : true
+      parallel : true,
+      concurrency : 5
     },
     files : {
       'xunit/casper-results.xml' : ['test/functionalTests.js'],
