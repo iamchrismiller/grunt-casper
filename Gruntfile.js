@@ -12,17 +12,31 @@ module.exports = function (grunt) {
       options : {
         test : true
       },
+
       screenshots : {
         options : {
           test : false
         },
         src : ['test/fixtures/testScreenshots.js']
       },
+
       pass : {
         files : {
           'tmp/casper/testPass-results.xml' : ['test/fixtures/testPass.js']
         }
       },
+
+      parallel : {
+        options : {
+          parallel : true,
+          concurrency: 5
+        },
+
+        src : [
+          'test/fixtures/testParallel*.js'
+        ]
+       },
+
       args: {
         options: {
           test: false
@@ -31,17 +45,20 @@ module.exports = function (grunt) {
           'tmp/casper/testArgs-results.xml': ['test/fixtures/testArgs.js']
         }
       },
+
       fail : {
         files : {
           'tmp/casper/testFail-results.xml' : ['test/fixtures/testFail.js']
         }
       },
+
       multiple : {
         src : ['test/fixtures/testPass.js','test/fixtures/testPass2.js'],
         dest : function(input) {
           return 'tmp/multi/' + input.replace('test/fixtures/','').replace(/\.js$/, '.xml');
         }
       },
+
       includes : {
         options : {
           includes : 'test/fixtures/includes/inc.js'
@@ -51,9 +68,11 @@ module.exports = function (grunt) {
         }
       }
     },
+
     clean : {
       tmp : ['tmp']
     },
+
     nodeunit: {
       tasks: ['test/*_test.js']
     }
@@ -90,6 +109,7 @@ module.exports = function (grunt) {
     'casper:multiple',
     'casper:includes',
     'casper:screenshots',
+    'casper:parallel',
     'spawnFailure'
   ]);
 

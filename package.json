@@ -1,7 +1,7 @@
 {
   "name": "grunt-casper",
   "description": "Run Casper CLI Scripts With Grunt",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": {
     "name": "Chris Miller",
     "email": "cmille142@gmail.com",
@@ -14,7 +14,6 @@
     }
   ],
   "devDependencies": {
-    "grunt-contrib-internal": "~0.4.6",
     "grunt-contrib-jshint": "~0.6.4",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-nodeunit": "~0.2.1",
@@ -31,7 +30,9 @@
     "grunt-casper"
   ],
   "dependencies": {
-    "grunt-lib-contrib": "~0.4.0",
-    "grunt-contrib-internal": "~0.4.6"
+    "grunt-lib-contrib": "~0.6.1",
+    "grunt-cli": "~0.1.9",
+    "grunt": "~0.4.1",
+    "duration": "~0.1.4"
   }
 }

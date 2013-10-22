@@ -13,7 +13,7 @@ exports.init = function (grunt) {
     'xunit'     : true
   };
 
-  function spawn(cwd,args,next,done) {
+  function spawn(cwd,args,next) {
     grunt.verbose.write('Spawning casperjs with args: ' + args + '\n');
 
     grunt.util.spawn({
@@ -25,15 +25,15 @@ exports.init = function (grunt) {
     }, function (errorObj, result, code) {
       if (code > 0) {
         grunt.log.error(result.stdout);
-        return done(false);
+        return next(result.stdout);
       }
       if (result.stdout) grunt.log.write(result.stdout + '\n\n');
       if (result.stderr) grunt.log.write(result.stderr + '\n\n');
-      next();
+       next();
     });
   }
 
-  exports.spawnCasper = function(src, dest, options, args, next, done) {
+  exports.spawnCasper = function(src, dest, options, args, next) {
     grunt.verbose.write('Preparing casperjs spawn\n');
     var spawnOpts = [];
     var cwd = options.cwd || process.cwd();
@@ -84,7 +84,7 @@ exports.init = function (grunt) {
       }
     }
 
-    spawn(cwd,spawnOpts,next,done);
+    spawn(cwd,spawnOpts,next);
   };
 
   return exports;
