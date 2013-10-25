@@ -7,6 +7,11 @@
     "email": "cmille142@gmail.com",
     "url": "http://chris-miller.me"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:iamchrismiller/grunt-casper.git"
+  },
+  "bugs": "https://github.com/iamchrismiller/grunt-casper/issues/",
   "licenses": [
     {
       "type": "MIT",
