@@ -7,5 +7,6 @@ before_script:
   - "export PHANTOMJS_EXECUTABLE='phantomjs --local-to-remote-url-access=yes --ignore-ssl-errors=yes'"
   - wget -nv https://github.com/n1k0/casperjs/archive/master.zip
   - unzip -q master
-  - sudo ln -s `pwd`/master/bin/casperjs /usr/local/bin/casperjs
+  - cd master
+  - sudo ln -s bin/casperjs /usr/local/bin/casperjs
   - "casperjs --version"
