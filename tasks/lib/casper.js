@@ -40,6 +40,7 @@ exports.init = function (grunt) {
 
     if (options.xunit_out) {
       if (typeof options.xunit_out === 'function') {
+        //src passed as array reference
         options.xunit = options.xunit_out(src);
       } else {
         options.xunit = options.xunit_out;
@@ -60,8 +61,7 @@ exports.init = function (grunt) {
     if (options['log-level'] && !options.direct) spawnOpts.push('--direct');
 
     grunt.util._.forEach(options,function(value, option) {
-      if (option === 'test') return;
-      if (option === 'xunit_out') return;
+      if (option === 'test' || option === 'xunit_out') return;
       var currentOption = '--' + option + '=' + value;
       grunt.verbose.write('Adding Option ' + currentOption + '\n');
       spawnOpts.push(currentOption);
@@ -74,7 +74,20 @@ exports.init = function (grunt) {
       spawnOpts.push('--xunit=' + dest);
     }
 
-    spawnOpts.push(src);
+    if (typeof src === 'object') {
+      src.filter(function(file) {
+        if (!grunt.file.exists(file)) {
+          grunt.log.warn('Source file "' + file + '" not found.');
+          return false;
+        }
+        return true;
+      }).map(function(file) {
+          spawnOpts.push(file);
+      });
+
+    } else {
+      spawnOpts.push(src);
+    }
 
     if (args.length > 0) {
       if (options.test) {

@@ -155,8 +155,10 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
+ * IN 1.1 Branch
+ * 2014-01-14            Refactored non-parallel Runs, fixing --fail-fast parameter   
+ * 2013-11-22            Refactored task dependencies, added parallel option and task duration
 
- * 2013-11-22   v0.1.5   Refactored task dependencies, added parallel option and task duration
  * 2013-10-08   v0.1.4   Merged pull request - cwd spawn option
  * 2013-09-05   v0.1.3   Fixed logging from grunt.verbose -> grunt.log
  * 2013-08-10   v0.1.2   Added xunit support

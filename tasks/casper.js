@@ -49,26 +49,24 @@ module.exports = function (grunt) {
             //Don't Pass this through to spawn
             delete options.concurrency;
           }
-
           //Run Tests In Parallel
-          grunt.util.async.forEachLimit(file.src, concurrency, function(srcFile, next) {
-            //Spawn Child Process
-            casperlib.spawnCasper(srcFile, file.dest, options, args, next);
-          }, function(err) {
-            if (err) grunt.log.write('error:', err);
-            //Call Done and Log Duration
-            taskComplete();
-          });
+          if (file.src) {
+            grunt.util.async.forEachLimit(file.src, concurrency, function(srcFile, next) {
+              //Spawn Child Process
+              casperlib.spawnCasper(srcFile, file.dest, options, args, next);
+            }, function(err) {
+              if (err) grunt.log.write('error:', err);
+              //Call Done and Log Duration
+              taskComplete();
+            });
+          }
         } else {
-          //Run Tests In Series
-          grunt.util.async.forEachSeries(file.src,function (srcFile, next) {
-            //Spawn Child Process
-            casperlib.spawnCasper(srcFile, file.dest, options, args, next);
-          }, function (err) {
-            if (err) grunt.log.write('error:', err);
-            //Call Done and Log Duration
-            taskComplete();
-          });
+          if (file.src) {
+            casperlib.spawnCasper(file.src, file.dest, options, args, function() {
+              //Call Done and Log Duration
+              taskComplete();
+            });
+          }
         }
       } else {
         grunt.fail.warn('Unable to compile; no valid source files were found.');

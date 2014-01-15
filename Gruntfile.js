@@ -52,11 +52,18 @@ module.exports = function (grunt) {
         }
       },
 
+      failFast : {
+        options : {
+          test : true,
+          'fail-fast' : true
+        },
+        src : ['test/fixtures/testPass.js', 'test/fixtures/testFail.js', 'test/fixtures/testPass2.js'],
+        dest : 'tmp/casper/testFailFast-results.xml'
+      },
+
       multiple : {
         src : ['test/fixtures/testPass.js','test/fixtures/testPass2.js'],
-        dest : function(input) {
-          return 'tmp/multi/' + input.replace('test/fixtures/','').replace(/\.js$/, '.xml');
-        }
+        dest : 'tmp/multi/testResults.xml'
       },
 
       includes : {
@@ -78,6 +85,20 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.loadTasks('tasks');
+
+  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-internal');
+
+  /* can't pass arguments to alias tasks but we can use grunt.task.run */
+  grunt.registerTask('casperargs', function() {
+    var args = ['casper','args'].concat(Array.prototype.slice.call(arguments));
+    grunt.log.writeln(args);
+    grunt.task.run(args.join(':'));
+  });
+
   grunt.registerTask('spawnFailure', function(){
     var options = {
       grunt: true,
@@ -87,29 +108,15 @@ module.exports = function (grunt) {
     grunt.util.spawn(options, function(){done(true);});
   });
 
-  grunt.loadTasks('tasks');
-
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-internal');
-  
-  /* can't pass arguments to alias tasks but we can use grunt.task.run */
-  grunt.registerTask('casperargs', function() {
-    var args = ['casper','args'].concat(Array.prototype.slice.call(arguments));
-
-    grunt.log.writeln(args);
-
-    grunt.task.run(args.join(':'));
-  });
-  
   grunt.registerTask('caspertests', [
     'clean',
+    'casperargs:baz:--foo=bar',
     'casper:pass',
     'casper:multiple',
     'casper:includes',
     'casper:screenshots',
     'casper:parallel',
+    'casper:failFast',
     'spawnFailure'
   ]);
 
