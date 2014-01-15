@@ -13,11 +13,12 @@ exports.init = function (grunt) {
     'xunit'     : true
   };
 
-  function spawn(cwd,options,next,done) {
-    grunt.verbose.write('Spawning casperjs with options: ' + options + '\n');
+  function spawn(cwd,args,next) {
+    grunt.verbose.write('Spawning casperjs with args: ' + args + '\n');
+
     grunt.util.spawn({
       cmd  : 'casperjs',
-      args : options,
+      args : args,
       opts : {
         cwd : cwd,
         //see CasperJs output live
@@ -26,21 +27,22 @@ exports.init = function (grunt) {
     }, function (errorObj, result, code) {
       if (code > 0) {
         grunt.log.error(result.stdout);
-        return done(false);
+        return next(result.stdout);
       }
       if (result.stdout) grunt.log.write(result.stdout + '\n\n');
       if (result.stderr) grunt.log.write(result.stderr + '\n\n');
-      next();
+       next();
     });
   }
 
-  exports.spawnCasper = function(src, dest, options, args, next, done) {
+  exports.spawnCasper = function(src, dest, options, args, next) {
     grunt.verbose.write('Preparing casperjs spawn\n');
     var spawnOpts = [];
     var cwd = options.cwd || process.cwd();
 
     if (options.xunit_out) {
       if (typeof options.xunit_out === 'function') {
+        //src passed as array reference
         options.xunit = options.xunit_out(src);
       } else {
         options.xunit = options.xunit_out;
@@ -61,8 +63,7 @@ exports.init = function (grunt) {
     if (options['log-level'] && !options.direct) spawnOpts.push('--direct');
 
     grunt.util._.forEach(options,function(value, option) {
-      if (option === 'test') return;
-      if (option === 'xunit_out') return;
+      if (option === 'test' || option === 'xunit_out') return;
       var currentOption = '--' + option + '=' + value;
       grunt.verbose.write('Adding Option ' + currentOption + '\n');
       spawnOpts.push(currentOption);
@@ -72,10 +73,23 @@ exports.init = function (grunt) {
       if (typeof dest === 'function') {
         dest = dest(src);
       }
-      spawnOpts.push('--save=' + dest);
+      spawnOpts.push('--xunit=' + dest);
     }
 
-    spawnOpts.push(src);
+    if (typeof src === 'object') {
+      src.filter(function(file) {
+        if (!grunt.file.exists(file)) {
+          grunt.log.warn('Source file "' + file + '" not found.');
+          return false;
+        }
+        return true;
+      }).map(function(file) {
+          spawnOpts.push(file);
+      });
+
+    } else {
+      spawnOpts.push(src);
+    }
 
     if (args.length > 0) {
       if (options.test) {
@@ -85,7 +99,7 @@ exports.init = function (grunt) {
       }
     }
 
-    spawn(cwd,spawnOpts,next,done);
+    spawn(cwd,spawnOpts,next);
   };
 
   return exports;

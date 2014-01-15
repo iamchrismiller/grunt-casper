@@ -9,6 +9,8 @@ This task makes use of PhantomJS to drive the casperJS scripts in a headless man
 You will need to install [phantomjs](http://phantomjs.org/), with a fairly simple package [install](http://phantomjs.org/download.html)
 After [phantomjs](http://phantomjs.org/) is installed, you will need to install [casperjs](http://casperjs.org/installation.html)
 
+PhantomJS 1.8.1 or later is required for Casperjs 1.1.
+
 Now install the grunt task
 
 ```shell
@@ -94,6 +96,24 @@ casper : {
 }
 ```
 
+Basic Parallel usage
+```js
+casper : {
+ yourTask : {
+    options : {
+      test : true,
+      parallel : true,
+      concurrency : 5
+    },
+    files : {
+      'xunit/casper-results.xml' : ['test/functionalTests.js'],
+      'xunit/casper-results-2.xml' : ['test/functionalTests2.js'],
+    }
+  }
+}
+
+
+
 Global options and custom destination
 
 ```js
@@ -135,6 +155,9 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
+ * IN 1.1 Branch
+ * 2014-01-14            Refactored non-parallel Runs, fixing --fail-fast parameter   
+ * 2013-11-22            Refactored task dependencies, added parallel option and task duration
 
  * 2013-10-08   v0.1.4   Merged pull request - cwd spawn option
  * 2013-09-05   v0.1.3   Fixed logging from grunt.verbose -> grunt.log

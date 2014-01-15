@@ -1,8 +1,14 @@
 
-casper.test.comment("Casper includes test started");
+casper.test.begin('Basic Site Testing With Includes', 1, function suite(test) {
 
-//defined in inc.js
-casper.includeFunction();
+  casper.start('test/fixtures/basicSite.html', function() {
 
-casper.test.done(1);
-casper.test.renderResults(true, 0, casper.cli.get('save') || false);
+       exports.includeFunction(test);
+
+  });
+
+  casper.run(function() {
+    test.done();
+  });
+
+});
