@@ -15,7 +15,8 @@ module.exports = function (grunt) {
 
       screenshots : {
         options : {
-          test : false
+          test : false,
+          'load-images' : 'no'
         },
         src : ['test/fixtures/testScreenshots.js']
       },
