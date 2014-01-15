@@ -8,3 +8,4 @@ before_script:
   - wget -nv https://github.com/n1k0/casperjs/archive/master.zip
   - unzip -q master
   - sudo ln -s `pwd`/n1k0-casperjs-*/bin/casperjs /usr/local/bin/casperjs
+  - "casperjs --version"
