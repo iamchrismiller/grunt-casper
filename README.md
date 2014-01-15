@@ -2,14 +2,15 @@
 
 > Run CasperJS Scripts/Functional Tests
 
+PhantomJS v1.8.1 or later is required for **Casperjs v1.1**.
+If You need Casper 1.0 Support - Please Check out this [tag](https://github.com/iamchrismiller/grunt-casper/tree/1.0)
+
 ## Installation
 
 This task makes use of PhantomJS to drive the casperJS scripts in a headless manner.
 
 You will need to install [phantomjs](http://phantomjs.org/), with a fairly simple package [install](http://phantomjs.org/download.html)
 After [phantomjs](http://phantomjs.org/) is installed, you will need to install [casperjs](http://casperjs.org/installation.html)
-
-PhantomJS 1.8.1 or later is required for Casperjs 1.1.
 
 Now install the grunt task
 
