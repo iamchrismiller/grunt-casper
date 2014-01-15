@@ -20,7 +20,9 @@ exports.init = function (grunt) {
       cmd  : 'casperjs',
       args : args,
       opts : {
-        cwd : cwd
+        cwd : cwd,
+        //see CasperJs output live
+        stdio: 'inherit'
       }
     }, function (errorObj, result, code) {
       if (code > 0) {

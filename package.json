@@ -1,12 +1,17 @@
 {
   "name": "grunt-casper",
   "description": "Run Casper CLI Scripts With Grunt",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "author": {
     "name": "Chris Miller",
     "email": "cmille142@gmail.com",
     "url": "http://chris-miller.me"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:iamchrismiller/grunt-casper.git"
+  },
+  "bugs": "https://github.com/iamchrismiller/grunt-casper/issues/",
   "licenses": [
     {
       "type": "MIT",
