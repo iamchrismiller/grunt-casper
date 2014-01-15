@@ -5,6 +5,6 @@ before_script:
   - npm install -g grunt-cli
   - "phantomjs --version"
   - "export PHANTOMJS_EXECUTABLE='phantomjs --local-to-remote-url-access=yes --ignore-ssl-errors=yes'"
-  - wget -nv http://github.com/n1k0/casperjs/zipball/1.0.0
-  - unzip -q 1.0.0
+  - wget -nv https://github.com/n1k0/casperjs/archive/master.zip
+  - unzip -q master
   - sudo ln -s `pwd`/n1k0-casperjs-*/bin/casperjs /usr/local/bin/casperjs
