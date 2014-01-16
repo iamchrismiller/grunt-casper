@@ -60,9 +60,13 @@ module.exports = function (grunt) {
               taskComplete();
             });
           }
-        } else {
+         } else {
           if (file.src) {
-            casperlib.spawnCasper(file.src, file.dest, options, args, function() {
+            grunt.util.async.forEachSeries(file.src, function(srcFile, next) {
+              //Spawn Child Process
+              casperlib.spawnCasper(srcFile, file.dest, options, args, next);
+            }, function(err) {
+              if (err) grunt.log.write('error:', err);
               //Call Done and Log Duration
               taskComplete();
             });
