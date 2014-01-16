@@ -113,8 +113,7 @@ casper : {
     }
   }
 }
-
-
+```
 
 Global options and custom destination
 
@@ -147,6 +146,7 @@ Grunt tasks can accept additional arguments and grunt-casper will pass these thr
 `grunt casper:yourTask:baz:--foo=bar`
 
 will pass `baz` as an argument and `foo` as an option with a value of `bar`.  These are then available in your CasperJS script 
+```
 
 ```js
 casper.cli.args.indexOf('baz'); // 0
