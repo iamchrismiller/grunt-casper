@@ -167,3 +167,7 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 ---
 
 Task submitted by [Chris Miller](http://chris-miller.me)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/iamchrismiller/grunt-casper/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
