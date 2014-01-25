@@ -126,7 +126,8 @@ module.exports = function (grunt) {
     'spawnFailure'
   ]);
 
-  grunt.registerTask('test', ['jshint', 'caspertests', 'nodeunit', 'testFail']);
+  grunt.registerTask('test', ['jshint', 'caspertests', 'nodeunit']);
+  //Should Run Locally To Test Fail Cases - Fails Travis/Grunt
   grunt.registerTask('testFail', ['casper:fail', 'casper:failFast']);
   grunt.registerTask('default', ['test']);
 };
