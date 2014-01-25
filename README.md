@@ -157,6 +157,7 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
+ * 2014-01-24   v0.2.1   Refactored exit logic
  * 2014-01-14   v0.2.0   Refactored non-parallel Runs, fixing --fail-fast parameter   
  * 2013-11-22            Refactored task dependencies, added parallel option and task duration
  * 2013-10-08   v0.1.4   Merged pull request - cwd spawn option

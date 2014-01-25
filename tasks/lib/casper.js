@@ -25,13 +25,15 @@ exports.init = function (grunt) {
         stdio: 'inherit'
       }
     }, function (errorObj, result, code) {
+
       if (code > 0) {
         grunt.log.error(result.stdout);
-        return next(result.stdout);
+        return next(true);
       }
+
       if (result.stdout) grunt.log.write(result.stdout + '\n\n');
       if (result.stderr) grunt.log.write(result.stderr + '\n\n');
-       next();
+      next();
     });
   }
 

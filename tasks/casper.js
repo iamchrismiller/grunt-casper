@@ -8,6 +8,7 @@ module.exports = function (grunt) {
   //get the duration of each casper task
   var Duration = require("duration");
 
+
   grunt.registerMultiTask('casper', 'execute casperjs tasks', function () {
 
     var args = Array.prototype.slice.call(arguments),
@@ -18,10 +19,13 @@ module.exports = function (grunt) {
 
     //Once Current Task is complete
     //Log Duration and Finish
-    function taskComplete() {
-      var msg = "Casper Task '" + taskName + "' took ~" + new Duration(startTime).milliseconds + "ms to complete";
-        grunt.log.success(msg);
-        done();
+    function taskComplete(error) {
+      var msg = "Casper Task '" + taskName + "' took ~" + new Duration(startTime).milliseconds + "ms to run";
+      grunt.log.success(msg);
+      if (error) {
+        return done(false);
+      }
+      done();
     }
 
     grunt.verbose.writeflags(options, 'Options');
@@ -53,18 +57,20 @@ module.exports = function (grunt) {
           if (file.src) {
             grunt.util.async.forEachLimit(file.src, concurrency, function(srcFile, next) {
               //Spawn Child Process
-              casperlib.spawnCasper(srcFile, file.dest, options, args, next);
+              casperlib.spawnCasper(srcFile, file.dest !== 'src' ? file.dest : null, options, args, next);
             }, function(err) {
               if (err) grunt.log.write('error:', err);
               //Call Done and Log Duration
               taskComplete();
             });
+
           }
         } else {
+
           if (file.src) {
-            casperlib.spawnCasper(file.src, file.dest, options, args, function() {
+            casperlib.spawnCasper(file.src, file.dest, options, args, function(err) {
               //Call Done and Log Duration
-              taskComplete();
+              taskComplete(err);
             });
           }
         }

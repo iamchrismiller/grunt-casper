@@ -27,15 +27,22 @@ module.exports = function (grunt) {
         }
       },
 
+      passMultiple : {
+        files : {
+          src : ['test/fixtures/testPass*.js']
+        }
+      },
+
       parallel : {
         options : {
           parallel : true,
           concurrency: 5
         },
-
-        src : [
-          'test/fixtures/testParallel*.js'
-        ]
+        files : {
+          src : [
+            'test/fixtures/testParallel*.js'
+          ]
+        }
        },
 
       args: {
@@ -55,7 +62,6 @@ module.exports = function (grunt) {
 
       failFast : {
         options : {
-          test : true,
           'fail-fast' : true
         },
         src : ['test/fixtures/testPass.js', 'test/fixtures/testFail.js', 'test/fixtures/testPass2.js'],
@@ -117,11 +123,10 @@ module.exports = function (grunt) {
     'casper:includes',
     'casper:screenshots',
     'casper:parallel',
-    'casper:failFast',
     'spawnFailure'
   ]);
 
-  grunt.registerTask('test', ['jshint', 'caspertests', 'nodeunit']);
+  grunt.registerTask('test', ['jshint', 'caspertests', 'nodeunit', 'testFail']);
+  grunt.registerTask('testFail', ['casper:fail', 'casper:failFast']);
   grunt.registerTask('default', ['test']);
-
 };
