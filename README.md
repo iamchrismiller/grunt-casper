@@ -113,8 +113,7 @@ casper : {
     }
   }
 }
-
-
+```
 
 Global options and custom destination
 

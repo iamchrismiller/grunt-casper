@@ -1,10 +1,13 @@
 language: node_js
 node_js:
-  - 0.8
+  - 0.10.24
 before_script:
   - npm install -g grunt-cli
   - "phantomjs --version"
   - "export PHANTOMJS_EXECUTABLE='phantomjs --local-to-remote-url-access=yes --ignore-ssl-errors=yes'"
   - wget -nv https://github.com/n1k0/casperjs/archive/master.zip
   - unzip -q master
-  - sudo ln -s `pwd`/n1k0-casperjs-*/bin/casperjs /usr/local/bin/casperjs
+  - "pwd"
+  - sudo ln -s `pwd`/master/bin/casperjs /usr/local/bin/casperjs
+  - ls -la /usr/local/bin
+  - "casperjs --version"
