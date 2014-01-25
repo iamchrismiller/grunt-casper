@@ -1,4 +1,4 @@
-# grunt-casper [![Build Status](https://secure.travis-ci.org/iamchrismiller/grunt-casper.png?branch=master)](http://travis-ci.org/iamchrismiller/grunt-casper)
+# grunt-casper [![Build Status](https://secure.travis-ci.org/iamchrismiller/grunt-casper.png?branch=master)](http://travis-ci.org/iamchrismiller/grunt-casper) [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/iamchrismiller/grunt-casper/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 > Run CasperJS Scripts/Functional Tests
 
