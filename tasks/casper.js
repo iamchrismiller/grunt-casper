@@ -10,7 +10,6 @@ module.exports = function (grunt) {
 
 
   grunt.registerMultiTask('casper', 'execute casperjs tasks', function () {
-
     var args = Array.prototype.slice.call(arguments),
       options = this.options(),
       done = this.async(),
@@ -28,19 +27,17 @@ module.exports = function (grunt) {
       done();
     }
 
-    grunt.verbose.writeflags(options, 'Options');
     grunt.verbose.writeflags(args, 'Arguments');
 
     this.files.forEach(function (file) {
-
       if (file.src.length) {
         //Allow Files in each task to be run concurrently
         if (options.parallel) {
           //Don't Pass this through to spawn
           delete options.parallel;
+          //https://github.com/gruntjs/grunt-contrib-sass/issues/16
           //Set Default Concurrency at 5 (Supposed Memory Leak > 10)
           var concurrency = 5;
-
           if (options.concurrency) {
             if (concurrency > 10) {
               grunt.verbose.writeln('Concurrency Too High. Max 10, updating to 10.');
@@ -63,7 +60,6 @@ module.exports = function (grunt) {
               //Call Done and Log Duration
               taskComplete();
             });
-
           }
         } else {
 

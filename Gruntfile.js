@@ -36,7 +36,8 @@ module.exports = function (grunt) {
       parallel : {
         options : {
           parallel : true,
-          concurrency: 5
+          concurrency: 5,
+          concise : true
         },
         files : {
           src : [
@@ -51,6 +52,20 @@ module.exports = function (grunt) {
         },
         files: {
           'tmp/casper/testArgs-results.xml': ['test/fixtures/testArgs.js']
+        }
+      },
+
+      argsTest: {
+        options: {
+          test: false,
+          args : [
+            "foo",
+            "bar",
+            "baz"
+          ]
+        },
+        files: {
+          'tmp/casper/testArgs-results.xml': ['test/fixtures/testArgsTest.js']
         }
       },
 
@@ -117,6 +132,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('caspertests', [
     'clean',
+    'casper:argsTest',
     'casperargs:baz:--foo=bar',
     'casper:pass',
     'casper:multiple',

@@ -10,6 +10,7 @@ exports.init = function (grunt) {
     direct      : true,
     'log-level' : true,
     'fail-fast' : true,
+    'concise'   : true,
     'xunit'     : true
   };
 
@@ -51,24 +52,41 @@ exports.init = function (grunt) {
       }
     }
 
-    if (options.test) {
-      spawnOpts.push('test');
-    } else {
-      grunt.util._.forEach(options, function(value, option){
-        if (testOnlyOptions[option]) {
-          grunt.log.warn('Option ' + option + ' only available in test mode');
-        }
-      });
-    }
-
     //add direct flag for printing logs to screen
     if (options['log-level'] && !options.direct) spawnOpts.push('--direct');
 
     grunt.util._.forEach(options,function(value, option) {
-      if (option === 'test' || option === 'xunit_out') return;
-      var currentOption = '--' + option + '=' + value;
-      grunt.verbose.write('Adding Option ' + currentOption + '\n');
-      spawnOpts.push(currentOption);
+      if (options.test.length && testOnlyOptions[option]) {
+        grunt.log.warn('Option ' + option + ' only available in test mode');
+        return;
+      }
+
+      if (option) {
+        switch(option) {
+          case 'test':
+            if (value) {
+              spawnOpts.push(option);
+            }
+            break;
+          case 'xunit_out':
+            return;
+          case 'args' :
+            //grunt arguments
+            if (options.test.length) {
+              grunt.log.warn('Arguments not supported ins test mode');
+            } else {
+              if (args.length) spawnOpts.push(args);
+              value.forEach(function(arg) {
+                spawnOpts.push(arg);
+              });
+            }
+            break;
+          default:
+            var currentOption = '--' + option + '=' + value;
+            grunt.verbose.write('Adding Option ' + currentOption + '\n');
+            spawnOpts.push(currentOption);
+        }
+      }
     });
 
     if (dest) {
@@ -86,19 +104,13 @@ exports.init = function (grunt) {
         }
         return true;
       }).map(function(file) {
-          spawnOpts.push(file);
+          if (options.test) spawnOpts.splice(1,0,file);
+          else spawnOpts.unshift(file);
       });
-
+    } else if (options.test) {
+      spawnOpts.splice(1,0,src);
     } else {
-      spawnOpts.push(src);
-    }
-
-    if (args.length > 0) {
-      if (options.test) {
-        grunt.log.warn('Arguments not supported for test mode');
-      } else {
-        spawnOpts = spawnOpts.concat(args);
-      }
+      spawnOpts.unshift(src);
     }
 
     spawn(cwd,spawnOpts,next);

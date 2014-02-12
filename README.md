@@ -82,6 +82,13 @@ Default: false
 
 Terminate as soon as a first failure is encountered.
 
+
+#### concise
+Type: `boolean`
+Default: false
+
+Create a more concise output of the test suite.
+
 ### Usage Examples
 
 Basic usage
@@ -125,7 +132,8 @@ casper : {
     post : 'path/to/post.js',
     pre : 'path/to/pre.js',
     'log-level' : 'warning',
-    'fail-fast' : true
+    'fail-fast' : true,
+    concise : true
   },
   yourTask : {
     src: ['path/to/tests/*_test.js'],
@@ -139,7 +147,7 @@ casper : {
 ### Options and Arguments
 CasperJS supports options and arguments on the [command line](http://docs.casperjs.org/en/latest/cli.html).
 
-`casperjs test.js baz --foo=bar`
+`casperjs script.js baz --foo=bar`
 
 Grunt tasks can accept additional arguments and grunt-casper will pass these through to CasperJS, for instance
 
@@ -152,10 +160,21 @@ casper.cli.args.indexOf('baz'); // 0
 casper.cli.options.foo; //bar
 ```
 
+Arguments can also be specified in the Task Options Object
+
+```js
+  casper : {
+    options : {
+      args : ['foo', 'bar']
+    }
+  }
+```
+
 Arguments and options will be ignored in `test` mode as CasperJS does not support them.
 
 ## Release History
 
+ * 2014-02-11   v0.2.2   Added args option for casper args, added concise option support
  * 2014-01-24   v0.2.1   Refactored exit logic
  * 2014-01-14   v0.2.0   Refactored non-parallel Runs, fixing --fail-fast parameter   
  * 2013-11-22            Refactored task dependencies, added parallel option and task duration
