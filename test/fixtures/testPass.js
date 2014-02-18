@@ -1,7 +1,7 @@
 
 casper.test.begin('Basic Site Testing Pass Tests', 3, function suite(test) {
 
-  casper.start('/srv/playground/grunt-casper/test/fixtures/basicSite.html', function() {
+  casper.start('test/fixtures/basicSite.html', function() {
 
     test.assertTitle('Test Title');
     test.assertExists('h1', 'Header Exists');
