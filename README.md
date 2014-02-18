@@ -2,7 +2,7 @@
 
 > Run CasperJS Scripts/Functional Tests
 
-*PhantomJS v1.8.1+* or *SlimerJS v0.9.0+* is required for **Casperjs v1.1**.
+**PhantomJS v1.8.1+** or **SlimerJS v0.9.0+** is required for **Casperjs v1.1**.
 
 If You need Casper 1.0 Support - Please Check out this [tag](https://github.com/iamchrismiller/grunt-casper/tree/1.0)
 
