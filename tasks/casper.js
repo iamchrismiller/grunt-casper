@@ -39,7 +39,7 @@ module.exports = function (grunt) {
           //Set Default Concurrency at 5 (Supposed Memory Leak > 10)
           var concurrency = 5;
           if (options.concurrency) {
-            if (concurrency > 10) {
+            if (concurrency > 10 ) {
               grunt.verbose.writeln('Concurrency Too High. Max 10, updating to 10.');
               concurrency = 10;
             } else if (concurrency < 1) {
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
           if (file.src) {
             grunt.util.async.forEachLimit(file.src, concurrency, function(srcFile, next) {
               //Spawn Child Process
-              casperlib.spawnCasper(srcFile, file.dest !== 'src' ? file.dest : null, options, args, next);
+              casperlib.execute(srcFile, file.dest !== 'src' ? file.dest : null, options, args, next);
             }, function(err) {
               if (err) grunt.log.write('error:', err);
               //Call Done and Log Duration
@@ -64,7 +64,8 @@ module.exports = function (grunt) {
         } else {
 
           if (file.src) {
-            casperlib.spawnCasper(file.src, file.dest, options, args, function(err) {
+
+            casperlib.execute(file.src, file.dest, options, args, function(err) {
               //Call Done and Log Duration
               taskComplete(err);
             });

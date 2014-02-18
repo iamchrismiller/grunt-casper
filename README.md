@@ -89,6 +89,14 @@ Default: false
 
 Create a more concise output of the test suite.
 
+
+#### engine
+Type: `string`
+Default: phantomjs
+
+Specify Browser Engine (phantomjs|slimerjs)
+
+
 ### Usage Examples
 
 Basic usage
@@ -133,7 +141,8 @@ casper : {
     pre : 'path/to/pre.js',
     'log-level' : 'warning',
     'fail-fast' : true,
-    concise : true
+    concise : true,
+    engine : 'slimerjs'
   },
   yourTask : {
     src: ['path/to/tests/*_test.js'],
@@ -174,6 +183,7 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
+ * 2014-02-17   v0.2.3   Added engine support (phantomjs, slimerjs)
  * 2014-02-11   v0.2.2   Added args option for casper args, added concise option support
  * 2014-01-24   v0.2.1   Refactored exit logic
  * 2014-01-14   v0.2.0   Refactored non-parallel Runs, fixing --fail-fast parameter   

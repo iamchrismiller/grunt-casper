@@ -2,6 +2,11 @@
 module.exports = function (grunt) {
   "use strict";
   grunt.initConfig({
+
+    opts : {
+      port : 'fff'
+    },
+
     jshint: {
       options : {
         jshintrc : '.jshintrc'
@@ -21,6 +26,13 @@ module.exports = function (grunt) {
         src : ['test/fixtures/testScreenshots.js']
       },
 
+      passEngine : {
+        options : {
+          engine : 'slimerjs'
+        },
+        src : ['test/fixtures/testPass.js']
+      },
+
       pass : {
         files : {
           'tmp/casper/testPass-results.xml' : ['test/fixtures/testPass.js']
@@ -28,9 +40,7 @@ module.exports = function (grunt) {
       },
 
       passMultiple : {
-        files : {
-          src : ['test/fixtures/testPass*.js']
-        }
+        src : ['test/fixtures/testPass*.js']
       },
 
       parallel : {
@@ -130,11 +140,12 @@ module.exports = function (grunt) {
     grunt.util.spawn(options, function(){done(true);});
   });
 
-  grunt.registerTask('caspertests', [
+  grunt.registerTask('runtests', [
     'clean',
     'casper:argsTest',
     'casperargs:baz:--foo=bar',
     'casper:pass',
+    'casper:passEngine',
     'casper:multiple',
     'casper:includes',
     'casper:screenshots',
@@ -142,7 +153,8 @@ module.exports = function (grunt) {
     'spawnFailure'
   ]);
 
-  grunt.registerTask('test', ['jshint', 'caspertests', 'nodeunit']);
+  grunt.registerTask('test', ['jshint', 'runtests', 'nodeunit']);
+
   //Should Run Locally To Test Fail Cases - Fails Travis/Grunt
   grunt.registerTask('testFail', ['casper:fail', 'casper:failFast']);
   grunt.registerTask('default', ['test']);
