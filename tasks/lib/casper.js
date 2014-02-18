@@ -86,8 +86,6 @@ exports.init = function (grunt) {
               }
               break;
             case 'xunit_out':
-              console.log("####");
-              console.log(value);
               if (typeof options.xunit_out === 'function') {
                 //src passed as array reference
                 options.xunit = options.xunit_out(src);

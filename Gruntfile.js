@@ -30,7 +30,7 @@ module.exports = function (grunt) {
         options : {
           engine : 'slimerjs'
         },
-        src : ['test/fixtures/testPass.js']
+        src : ['test/fixtures/testPassEngine.js']
       },
 
       pass : {
