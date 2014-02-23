@@ -63,7 +63,7 @@ Default: undefined
 
 Scripts to be executed after the test suite
 
-#### direct
+#### verbose
 Type: `Boolean`
 Default: false
 
@@ -183,6 +183,7 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
+ * 2014-02-22   v0.2.5   Changed deprecated 1.1 direct flag to verbose
  * 2014-02-22   v0.2.4   Fixed test option position in array
  * 2014-02-17   v0.2.3   Added engine support (phantomjs, slimerjs)
  * 2014-02-11   v0.2.2   Added args option for casper args, added concise option support

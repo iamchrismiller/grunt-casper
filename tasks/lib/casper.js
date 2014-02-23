@@ -1,4 +1,4 @@
-/*global exports, require*/
+/*global exports, require, process*/
 
 //node
 var path = require('path');
@@ -19,7 +19,7 @@ exports.init = function (grunt) {
       pre         : true,
       post        : true,
       includes    : true,
-      direct      : true,
+      verbose      : true,
       'log-level' : true,
       'fail-fast' : true,
       'concise'   : true,
@@ -69,8 +69,9 @@ exports.init = function (grunt) {
       grunt.verbose.write('Preparing casperjs spawn\n');
       var spawnOpts = [];
       var cwd = options.cwd || process.cwd();
-      //add direct flag for printing logs to screen
-      if (options['log-level'] && !options.direct) spawnOpts.push('--direct');
+
+      //add verbose flag for printing logs to screen
+      if (options['log-level'] && !options.verbose) spawnOpts.push('--verbose');
 
       _.forEach(options, function (value, option) {
         if (options.test.length && self._helpers.testOnlyOptions[option]) {
