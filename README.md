@@ -2,9 +2,8 @@
 
 > Run CasperJS Scripts/Functional Tests
 
-**PhantomJS v1.8.1+** or **SlimerJS v0.9.0+** is required for **Casperjs v1.1**.
-
 If You need Casper 1.0 Support - Please Check out this [tag](https://github.com/iamchrismiller/grunt-casper/tree/1.0)
+*@note : You no longer need PhantomJS/CasperJS binaries installed. They are now managed by npm*
 
 ## Installation
 
@@ -183,6 +182,7 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
+ * 2014-02-23   v0.3.0   CasperJS npm managed binary
  * 2014-02-23   v0.2.7   PhantomJS install via wrapper
  * 2014-02-22   v0.2.6   Parallel exit logic
  * 2014-02-22   v0.2.5   Changed deprecated 1.1 direct flag to verbose

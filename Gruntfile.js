@@ -126,7 +126,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-internal');
 
   /* can't pass arguments to alias tasks but we can use grunt.task.run */
   grunt.registerTask('casperargs', function() {

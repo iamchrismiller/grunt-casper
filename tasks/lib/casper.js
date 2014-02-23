@@ -1,7 +1,8 @@
 /*global exports, require, process*/
 
 //node
-var path = require('path');
+var path = require('path'),
+  fs = require('fs');
 
 //npm
 var _ = require('lodash');
@@ -15,13 +16,13 @@ var phantomjs = require('phantomjs');
 exports.init = function (grunt) {
   'use strict';
 
-  var casper = {
+  return {
 
     testOnlyOptions : {
       pre         : true,
       post        : true,
       includes    : true,
-      verbose      : true,
+      verbose     : true,
       'log-level' : true,
       'fail-fast' : true,
       'concise'   : true,
@@ -47,8 +48,15 @@ exports.init = function (grunt) {
         //Set PhantomJS Path
         process.env["PHANTOMJS_EXECUTABLE"] = phantomjs.path;
 
+        //Local casperjs dependency path
+        var casperBin = "./node_modules/.bin/casperjs";
+        if (!fs.existsSync(casperBin)) {
+          grunt.log.error("CasperJS Binary Not Found, try `npm install`");
+          return next(true);
+        }
+
         grunt.util.spawn({
-          cmd  : 'casperjs',
+          cmd  : casperBin,
           args : args,
           opts : {
             cwd   : cwd,
@@ -144,13 +152,13 @@ exports.init = function (grunt) {
             if (!grunt.file.isPathAbsolute(file)) {
               file = path.join(cwd, file);
             }
-              spawnOpts.unshift(file);
+            spawnOpts.unshift(file);
           });
       } else {
         spawnOpts.unshift(src);
       }
 
-      if(options.test) {
+      if (options.test) {
         spawnOpts.unshift('test');
       }
 
@@ -158,6 +166,4 @@ exports.init = function (grunt) {
       this._helpers.spawn(cwd, spawnOpts, next);
     }
   };
-
-  return casper;
 };
