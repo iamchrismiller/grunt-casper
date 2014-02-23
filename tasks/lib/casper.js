@@ -5,6 +5,8 @@ var path = require('path');
 
 //npm
 var _ = require('lodash');
+//npm install wrapper
+var phantomjs = require('phantomjs');
 
 /**
  * Initializer For Grunt
@@ -41,6 +43,10 @@ exports.init = function (grunt) {
        */
       spawn : function (cwd, args, next) {
         grunt.verbose.write('Spawning casperjs with args: ' + args + '\n');
+
+        //Set PhantomJS Path
+        process.env["PHANTOMJS_EXECUTABLE"] = phantomjs.path;
+
         grunt.util.spawn({
           cmd  : 'casperjs',
           args : args,
