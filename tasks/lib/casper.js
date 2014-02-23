@@ -81,9 +81,7 @@ exports.init = function (grunt) {
         if (option) {
           switch (option) {
             case 'test':
-              if (value) {
-                spawnOpts.push(option);
-              }
+              //Test requires specific order logic
               break;
             case 'xunit_out':
               if (typeof options.xunit_out === 'function') {
@@ -139,19 +137,16 @@ exports.init = function (grunt) {
             if (!grunt.file.isPathAbsolute(file)) {
               file = path.join(cwd, file);
             }
-
-            //If Test Splice into position
-            if (options.test) {
-              spawnOpts.splice(1, 0, file);
-            } else {
               spawnOpts.unshift(file);
-            }
           });
-      } else if (options.test) {
-        spawnOpts.splice(1, 0, src);
       } else {
         spawnOpts.unshift(src);
       }
+
+      if(options.test) {
+        spawnOpts.unshift('test');
+      }
+
       //Spawn Child Process
       this._helpers.spawn(cwd, spawnOpts, next);
     }

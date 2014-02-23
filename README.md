@@ -183,6 +183,7 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
+ * 2014-02-22   v0.2.4   Fixed test option position in array
  * 2014-02-17   v0.2.3   Added engine support (phantomjs, slimerjs)
  * 2014-02-11   v0.2.2   Added args option for casper args, added concise option support
  * 2014-01-24   v0.2.1   Refactored exit logic

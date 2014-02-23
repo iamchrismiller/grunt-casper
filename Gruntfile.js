@@ -34,6 +34,10 @@ module.exports = function (grunt) {
       },
 
       pass : {
+        options : {
+          "log-level" : "debug",
+          "test" : true
+        },
         files : {
           'tmp/casper/testPass-results.xml' : ['test/fixtures/testPass.js']
         }
