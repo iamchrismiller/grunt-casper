@@ -58,13 +58,12 @@ module.exports = function (grunt) {
             }, function(err) {
               if (err) grunt.log.write('error:', err);
               //Call Done and Log Duration
-              taskComplete();
+              taskComplete(err);
             });
           }
         } else {
 
           if (file.src) {
-
             casperlib.execute(file.src, file.dest, options, args, function(err) {
               //Call Done and Log Duration
               taskComplete(err);

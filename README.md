@@ -183,6 +183,7 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
+ * 2014-02-22   v0.2.6   Parallel exit logic
  * 2014-02-22   v0.2.5   Changed deprecated 1.1 direct flag to verbose
  * 2014-02-22   v0.2.4   Fixed test option position in array
  * 2014-02-17   v0.2.3   Added engine support (phantomjs, slimerjs)
