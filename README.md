@@ -182,6 +182,7 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
+ * 2014-03-03   v0.3.1   Export CasperJS binary to node_module/.bin
  * 2014-02-23   v0.3.0   CasperJS npm managed binary
  * 2014-02-23   v0.2.7   PhantomJS install via wrapper
  * 2014-02-22   v0.2.6   Parallel exit logic
