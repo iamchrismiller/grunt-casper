@@ -182,7 +182,8 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
- * 2014-03-03   v0.3.2   Fixed CasperJS Binary for windows platform
+ * 2014-03-06   v0.3.3   Cleaned up Cross Platform Binary Location
+ * 2014-03-05   v0.3.2   Fixed CasperJS Binary for windows platform
  * 2014-03-03   v0.3.1   Export CasperJS binary to node_module/.bin
  * 2014-02-23   v0.3.0   CasperJS npm managed binary
  * 2014-02-23   v0.2.7   PhantomJS install via wrapper
