@@ -49,7 +49,9 @@ exports.init = function (grunt) {
         process.env["PHANTOMJS_EXECUTABLE"] = phantomjs.path;
 
         //Local casperjs dependency path
-        var casperBin = "./node_modules/.bin/casperjs";
+        var isWindows = /^win/.test(process.platform);
+        var casperBin = "./node_modules/casperjs/bin/casperjs" + (isWindows ? ".exe" : "");
+
         if (!fs.existsSync(casperBin)) {
           grunt.log.error("CasperJS Binary Not Found, try `npm install`");
           return next(true);
