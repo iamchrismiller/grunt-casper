@@ -44,9 +44,11 @@ exports.init = function (grunt) {
        */
       spawn : function (cwd, args, next) {
         grunt.verbose.write('Spawning casperjs with args: ' + args + '\n');
-
-        //Set PhantomJS Path
-        process.env["PHANTOMJS_EXECUTABLE"] = phantomjs.path;
+        
+        //Set PhantomJS Path only if the file exists, otherwise fall back to ENV
+        if (fs.existsSync(phantomjs.path)) {
+          process.env["PHANTOMJS_EXECUTABLE"] = phantomjs.path;
+        }
 
         //Local casperjs dependency path
         var isWindows = /^win/.test(process.platform),
