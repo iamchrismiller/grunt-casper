@@ -182,6 +182,7 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
+ * 2014-03-20   v0.3.5   Fixed issue with engine indexOf conditional
  * 2014-03-12   v0.3.4   Merge pull request #36 check PhantomJS path
  * 2014-03-06   v0.3.3   Cleaned up Cross Platform Binary Location
  * 2014-03-05   v0.3.2   Fixed CasperJS Binary for windows platform

@@ -128,7 +128,7 @@ exports.init = function (grunt) {
               break;
             //add engine support outside of phantomJS
             case 'engine' :
-              if (self.supportedEngines.indexOf(options['engine'])) {
+              if (self.supportedEngines.indexOf(options['engine']) !== -1) {
                 spawnOpts.push('--engine=' + options['engine']);
               } else {
                 grunt.log.warn('Engine ' + options['engine'] + ' not available. [' + self.supportedEngines.join(',') + ']');
