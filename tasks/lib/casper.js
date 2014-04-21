@@ -18,7 +18,7 @@ exports.init = function (grunt) {
 
   return {
 
-    testOnlyOptions : {
+    testableOptions : {
       pre         : true,
       post        : true,
       includes    : true,
@@ -84,7 +84,6 @@ exports.init = function (grunt) {
           next();
         });
       }
-
     },
 
     execute : function (src, dest, options, args, next) {
@@ -97,7 +96,7 @@ exports.init = function (grunt) {
       if (options['log-level'] && !options.verbose) spawnOpts.push('--verbose');
 
       _.forEach(options, function (value, option) {
-        if (options.test.length && self._helpers.testOnlyOptions[option]) {
+        if (!options.test && self.testableOptions[option]) {
           grunt.log.warn('Option ' + option + ' only available in test mode');
           return;
         }
@@ -117,10 +116,10 @@ exports.init = function (grunt) {
               break;
             case 'args' :
               //grunt arguments
-              if (options.test.length) {
+              if (options.test) {
                 grunt.log.warn('Arguments not supported ins test mode');
               } else {
-                if (args.length) spawnOpts.push(args);
+                if (args && args.length) spawnOpts.push(args);
                 value.forEach(function (arg) {
                   spawnOpts.push(arg);
                 });
