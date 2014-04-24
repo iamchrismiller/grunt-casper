@@ -26,7 +26,8 @@ exports.init = function (grunt) {
       'log-level' : true,
       'fail-fast' : true,
       'concise'   : true,
-      'xunit'     : true
+      'xunit'     : true,
+      'no-colors' : true
     },
 
     supportedEngines : [
