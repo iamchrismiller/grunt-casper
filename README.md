@@ -182,6 +182,7 @@ Arguments and options will be ignored in `test` mode as CasperJS does not suppor
 
 ## Release History
 
+ * 2014-05-12   v0.3.8   Removed test arguments constraint
  * 2014-04-24   v0.3.7   Merge pull request #39 add no-colors option
  * 2014-04-21   v0.3.6   Fixed issue with testableOptions
  * 2014-03-20   v0.3.5   Fixed issue with engine indexOf conditional

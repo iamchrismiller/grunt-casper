@@ -116,15 +116,10 @@ exports.init = function (grunt) {
               }
               break;
             case 'args' :
-              //grunt arguments
-              if (options.test) {
-                grunt.log.warn('Arguments not supported ins test mode');
-              } else {
-                if (args && args.length) spawnOpts.push(args);
-                value.forEach(function (arg) {
-                  spawnOpts.push(arg);
-                });
-              }
+              if (args && args.length) spawnOpts.push(args);
+              value.forEach(function (arg) {
+                spawnOpts.push(arg);
+              });
               break;
             //add engine support outside of phantomJS
             case 'engine' :
