@@ -39,10 +39,10 @@ module.exports = function (grunt) {
           //Set Default Concurrency at 5 (Supposed Memory Leak > 10)
           var concurrency = 5;
           if (options.concurrency) {
-            if (concurrency > 10 ) {
+            if (options.concurrency > 10 ) {
               grunt.verbose.writeln('Concurrency Too High. Max 10, updating to 10.');
               concurrency = 10;
-            } else if (concurrency < 1) {
+            } else if (options.concurrency < 1) {
               grunt.verbose.writeln('Concurrency Too Low. Min 1, updating to default 5.');
             } else {
               concurrency = options.concurrency;
