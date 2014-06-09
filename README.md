@@ -25,8 +25,8 @@ CasperJS is a navigation scripting & testing utility for PhantomJS. It eases the
 If you haven't used [casperjs](http://casperjs.org/) before, be sure to check out the [Get Started](http://casperjs.org/quickstart.html) guide, as it explains how to create your first test case.
 
 
-## casperjs task
-_Run this task with the `grunt casperjs` command._
+## casper task
+_Run this task with the `grunt casper` command._
 
 _This task is a [multi task](https://github.com/gruntjs/grunt/wiki/Configuring-tasks) so any targets, files and options should be specified according to the [multi task][] documentation._
 
