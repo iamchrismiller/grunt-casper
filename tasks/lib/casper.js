@@ -86,12 +86,22 @@ exports.init = function (grunt) {
         });
       }
     },
+    
+    getCliOptions: function(){
+      var customArgs = process.argv.slice(3);
+      return customArgs;
+    },
 
     execute : function (src, dest, options, args, next) {
       var self = this;
       grunt.verbose.write('Preparing casperjs spawn\n');
       var spawnOpts = [];
       var cwd = options.cwd || process.cwd();
+      var cliOptions = this.getCliOptions();
+
+      _.forEach(cliOptions, function(value){
+           spawnOpts.push(value);
+      });
 
       //add verbose flag for printing logs to screen
       if (options['log-level'] && !options.verbose) spawnOpts.push('--verbose');
