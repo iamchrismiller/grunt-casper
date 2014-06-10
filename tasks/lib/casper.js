@@ -9,6 +9,7 @@ var _ = require('lodash');
 //npm install wrapper
 var phantomjs = require('phantomjs');
 
+
 /**
  * Initializer For Grunt
  * @param grunt
@@ -16,7 +17,7 @@ var phantomjs = require('phantomjs');
 exports.init = function (grunt) {
   'use strict';
 
-  return {
+  var casper = {
 
     testableOptions : {
       pre         : true,
@@ -35,57 +36,83 @@ exports.init = function (grunt) {
       'slimerjs'
     ],
 
-    _helpers : {
+    modulePaths : [
+      path.resolve(__dirname, '../../..'), //local
+      '/usr/local/lib/node_modules' //global
+    ],
 
-      /**
-       * Spawn Casperjs Child Process
-       * @param cwd
-       * @param args
-       * @param next
-       */
-      spawn : function (cwd, args, next) {
-        grunt.verbose.write('Spawning casperjs with args: ' + args + '\n');
-        
-        //Set PhantomJS Path only if the file exists, otherwise fall back to ENV
-        if (fs.existsSync(phantomjs.path)) {
-          process.env["PHANTOMJS_EXECUTABLE"] = phantomjs.path;
-        }
+    /**
+     * Spawn Casperjs Child Process
+     * @param cwd
+     * @param args
+     * @param next
+     */
+    spawn : function (cwd, args, next) {
+      grunt.verbose.write('Spawning casperjs with args: ', args, '\n');
+      //No CasperBin Found Yet
+      var casperBin = null;
 
-        //Local casperjs dependency path
+      //Set PhantomJS Path only if the file exists, otherwise fall back to ENV
+      if (fs.existsSync(phantomjs.path)) {
+        grunt.verbose.write('Found PhantomJS Executable', phantomjs.path, '\n');
+        process.env["PHANTOMJS_EXECUTABLE"] = phantomjs.path;
+      }
+
+      //Is environment variable `CASPERJS_EXECUTABLE` set?
+      if (process.env["CASPERJS_EXECUTABLE"] && fs.existsSync(process.env["CASPERJS_EXECUTABLE"])) {
+        casperBin = process.env["CASPERJS_EXECUTABLE"];
+      } else {
+        //Windows Check
         var isWindows = /^win/.test(process.platform),
-         //Task Node Modules Path
-         localModulesPath = path.resolve(__dirname, '../../node_modules'),
-         //Casper Binary Location Via Npm Install
-         casperBinaryPath = "/casperjs/bin/casperjs" + (isWindows ? ".exe" : ""),
-         //Cross Platform Binary Support
-         casperBin = localModulesPath + casperBinaryPath;
+          //NPM Module Path
+          moduleBinPath = "/casperjs/bin/casperjs";
 
-        if (!fs.existsSync(casperBin)) {
-          grunt.log.error("CasperJS Binary Not Found, try `npm install`");
+        //Loop through local/global node_modules dirs
+        casper.modulePaths.every(function (path) {
+          var moduleBin = path + moduleBinPath + (isWindows ? ".exe" : "");
+
+          if (fs.existsSync(moduleBin)) {
+            casperBin = moduleBin;
+            //essentially a break
+            return false;
+          }
+          return true;
+        });
+      }
+
+      //Did we find casper in the module Paths?
+      if (casperBin === null) {
+        grunt.log.error("CasperJS Binary Not Found, try `npm install`");
+        return next(true);
+      }
+
+      grunt.verbose.write('Found CasperJS Executable', casperBin);
+
+      //Spawn Casper Process
+      grunt.util.spawn({
+        cmd  : casperBin,
+        args : args,
+        opts : {
+          cwd   : cwd,
+          //see CasperJs output live
+          stdio : 'inherit'
+        }
+      }, function (errorObj, result, code) {
+
+        if (code > 0) {
+          grunt.log.error(result.stdout);
           return next(true);
         }
 
-        grunt.util.spawn({
-          cmd  : casperBin,
-          args : args,
-          opts : {
-            cwd   : cwd,
-            //see CasperJs output live
-            stdio : 'inherit'
-          }
-        }, function (errorObj, result, code) {
+        if (result.stdout) grunt.log.write(result.stdout + '\n\n');
+        if (result.stderr) grunt.log.write(result.stderr + '\n\n');
+        next();
+      });
+    }
+  };
 
-          if (code > 0) {
-            grunt.log.error(result.stdout);
-            return next(true);
-          }
 
-          if (result.stdout) grunt.log.write(result.stdout + '\n\n');
-          if (result.stderr) grunt.log.write(result.stderr + '\n\n');
-          next();
-        });
-      }
-    },
+  return {
 
     execute : function (src, dest, options, args, next) {
       var self = this;
@@ -97,7 +124,7 @@ exports.init = function (grunt) {
       if (options['log-level'] && !options.verbose) spawnOpts.push('--verbose');
 
       _.forEach(options, function (value, option) {
-        if (!options.test && self.testableOptions[option]) {
+        if (!options.test && casper.testableOptions[option]) {
           grunt.log.warn('Option ' + option + ' only available in test mode');
           return;
         }
@@ -123,10 +150,10 @@ exports.init = function (grunt) {
               break;
             //add engine support outside of phantomJS
             case 'engine' :
-              if (self.supportedEngines.indexOf(options['engine']) !== -1) {
+              if (casper.supportedEngines.indexOf(options['engine']) !== -1) {
                 spawnOpts.push('--engine=' + options['engine']);
               } else {
-                grunt.log.warn('Engine ' + options['engine'] + ' not available. [' + self.supportedEngines.join(',') + ']');
+                grunt.log.warn('Engine ' + options['engine'] + ' not available. [' + casper.supportedEngines.join(',') + ']');
               }
               break;
             default:
@@ -167,7 +194,7 @@ exports.init = function (grunt) {
       }
 
       //Spawn Child Process
-      this._helpers.spawn(cwd, spawnOpts, next);
+      casper.spawn(cwd, spawnOpts, next);
     }
   };
 };

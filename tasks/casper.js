@@ -1,12 +1,14 @@
 /*global require */
 "use strict";
 
+//npm
+var Duration = require("duration");
+
+
 module.exports = function (grunt) {
 
-  //casper spawn helpers
-  var casperlib = require('./lib/casper').init(grunt);
-  //get the duration of each casper task
-  var Duration = require("duration");
+  //Retrieve Casper Lib
+  var casperLib = require('./lib/casper').init(grunt);
 
 
   grunt.registerMultiTask('casper', 'execute casperjs tasks', function () {
@@ -54,7 +56,7 @@ module.exports = function (grunt) {
           if (file.src) {
             grunt.util.async.forEachLimit(file.src, concurrency, function(srcFile, next) {
               //Spawn Child Process
-              casperlib.execute(srcFile, file.dest !== 'src' ? file.dest : null, options, args, next);
+              casperLib.execute(srcFile, file.dest !== 'src' ? file.dest : null, options, args, next);
             }, function(err) {
               if (err) grunt.log.write('error:', err);
               //Call Done and Log Duration
@@ -64,7 +66,7 @@ module.exports = function (grunt) {
         } else {
 
           if (file.src) {
-            casperlib.execute(file.src, file.dest, options, args, function(err) {
+            casperLib.execute(file.src, file.dest, options, args, function(err) {
               //Call Done and Log Duration
               taskComplete(err);
             });

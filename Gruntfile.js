@@ -1,4 +1,13 @@
-/*global module:false*/
+/*global module, process*/
+
+//For Tests Override Casper Dir
+process.env.CASPERJS_EXECUTABLE = require('path').resolve(
+  __dirname,
+  'node_modules/casperjs/bin/casperjs',
+  (/^win/.test(process.platform) ?  ".exe" : "")
+);
+
+
 module.exports = function (grunt) {
   "use strict";
   grunt.initConfig({

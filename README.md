@@ -180,8 +180,20 @@ Arguments can also be specified in the Task Options Object
 
 Arguments and options will be ignored in `test` mode as CasperJS does not support them.
 
+## PhantomJS / CasperJS Binaries
+
+You may also override the location of the PhantomJS and CasperJS binaries like so:
+
+process.env.PHANTOMJS_EXECUTABLE = '/path/to/phantomjs';
+process.env.CASPERJS_EXECUTABLE = '/path/to/casperjs';
+
+The CasperJS Binary, by default, is loaded from the local ./node_modules directory and has a fallback to look in the
+global node_modules directory (/usr/local/lib/node_modules)
+
+
 ## Release History
 
+ * 2014-06-09   v0.3.9   Refactored exports and binary module loading
  * 2014-05-12   v0.3.8   Removed test arguments constraint
  * 2014-04-24   v0.3.7   Merge pull request #39 add no-colors option
  * 2014-04-21   v0.3.6   Fixed issue with testableOptions
