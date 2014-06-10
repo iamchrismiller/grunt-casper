@@ -61,8 +61,14 @@ exports.init = function (grunt) {
          casperBin = localModulesPath + casperBinaryPath;
 
         if (!fs.existsSync(casperBin)) {
-          grunt.log.error("CasperJS Binary Not Found, try `npm install`");
-          return next(true);
+          //swap to the location outside and check if it's installed locally there
+          localModulesPath = path.resolve(__dirname, '../../..');
+          casperBin = localModulesPath + casperBinaryPath;
+          
+          if (!fs.existsSync(casperBin)) {
+            grunt.log.error("CasperJS Binary Not Found, try `npm install`");
+            return next(true);
+          }
         }
 
         grunt.util.spawn({
