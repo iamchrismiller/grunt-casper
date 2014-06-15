@@ -1,10 +1,11 @@
 language: node_js
 node_js:
   - "0.8"
+  - "0.10"
 env:
   - SLIMERJSLAUNCHER=$(which firefox) DISPLAY=:99.0 PATH=$TRAVIS_BUILD_DIR/slimerjs:$PATH
 before_install:
-  - npm install -g grunt-cli
+  - npm install -g npm
   - "echo 'Installing Casper'"
   - git clone git://github.com/n1k0/casperjs.git ~/casperjs
   - cd ~/casperjs
