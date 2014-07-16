@@ -36,8 +36,10 @@ exports.init = function (grunt) {
       'slimerjs'
     ],
 
+
     modulePaths : [
-      path.resolve(__dirname, '../../..'), //local
+      path.resolve(__dirname, '../../node_modules'), //local
+      path.resolve(__dirname, '../../..'), //sibling
       '/usr/local/lib/node_modules' //global
     ],
 

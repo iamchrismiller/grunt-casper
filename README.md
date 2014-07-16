@@ -191,8 +191,10 @@ The CasperJS Binary, by default, is loaded from the local ./node_modules directo
 global node_modules directory (/usr/local/lib/node_modules)
 
 
+
 ## Release History
 
+ * 2014-07-16   v0.3.10  Added local binary module path
  * 2014-06-09   v0.3.9   Refactored exports and binary module loading
  * 2014-05-12   v0.3.8   Removed test arguments constraint
  * 2014-04-24   v0.3.7   Merge pull request #39 add no-colors option
