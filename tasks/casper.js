@@ -21,6 +21,7 @@ module.exports = function (grunt) {
     //Once Current Task is complete
     //Log Duration and Finish
     function taskComplete(error) {
+
       var msg = "Casper Task '" + taskName + "' took ~" + new Duration(startTime).milliseconds + "ms to run";
       grunt.log.success(msg);
       if (error) {
@@ -31,7 +32,8 @@ module.exports = function (grunt) {
 
     grunt.verbose.writeflags(args, 'Arguments');
 
-    this.files.forEach(function (file) {
+    grunt.util.async.forEachSeries(this.files, function(file, iteratorCb) {
+
       if (file.src.length) {
         //Allow Files in each task to be run concurrently
         if (options.parallel) {
@@ -60,7 +62,7 @@ module.exports = function (grunt) {
             }, function(err) {
               if (err) grunt.log.write('error:', err);
               //Call Done and Log Duration
-              taskComplete(err);
+              iteratorCb(err);
             });
           }
         } else {
@@ -68,13 +70,17 @@ module.exports = function (grunt) {
           if (file.src) {
             casperLib.execute(file.src, file.dest, options, args, function(err) {
               //Call Done and Log Duration
-              taskComplete(err);
+              iteratorCb(err);
             });
           }
         }
       } else {
         grunt.fail.warn('Unable to compile; no valid source files were found.');
       }
+
+    }, function(err) {
+      taskComplete(err);
     });
+
   });
 };

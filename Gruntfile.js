@@ -36,9 +36,6 @@ module.exports = function (grunt) {
       },
 
       passEngine : {
-        options : {
-          engine : 'slimerjs'
-        },
         src : ['test/fixtures/testPassEngine.js']
       },
 
@@ -68,6 +65,18 @@ module.exports = function (grunt) {
           ]
         }
        },
+
+      multipleFiles : {
+        options : {
+          parallel : true,
+          concurrency: 5,
+          concise : true
+        },
+        files : {
+          'tmp/casper/multipleFiles-results.xml' : ['test/fixtures/testPass.js'],
+          'tmp/casper/multipleFiles-results2.xml' : ['test/fixtures/testTimeout.js']
+        }
+      },
 
       args: {
         options: {

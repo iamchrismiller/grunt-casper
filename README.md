@@ -33,7 +33,7 @@ _This task is a [multi task](https://github.com/gruntjs/grunt/wiki/Configuring-t
 ### Options
 
 #### Grunt 'dest'
-Type: `String` `Function`
+Type: `String` || `Function`
 
 The 'dest' option in Grunt's configuration is passed as the --save option to casper, allowing you to access
    your destination programmatically. If passed as a function, the return value will be used.
@@ -76,25 +76,31 @@ Options: `debug` `info` `warning` `error`
 Sets the casperjs logging level
 
 #### fail-fast
-Type: `boolean`
+Type: `Boolean`
 Default: false
 
 Terminate as soon as a first failure is encountered.
 
-
 #### concise
-Type: `boolean`
+Type: `Boolean`
 Default: false
 
 Create a more concise output of the test suite.
 
 
 #### engine
-Type: `string`
+Type: `String`
 Default: phantomjs
 
 Specify Browser Engine (phantomjs|slimerjs)
 
+#### concurrency
+Type: `Number`
+Default: How many test files to run concurrently (1-10)
+
+#### parallel
+Type: `Boolean`
+Default: Run tests in Parallel instead of Series
 
 ### Usage Examples
 
@@ -194,6 +200,7 @@ global node_modules directory (/usr/local/lib/node_modules)
 
 ## Release History
 
+ * 2014-08-19   v0.4.0   Refactored Fail cases
  * 2014-07-16   v0.3.10  Added local binary module path
  * 2014-06-09   v0.3.9   Refactored exports and binary module loading
  * 2014-05-12   v0.3.8   Removed test arguments constraint
