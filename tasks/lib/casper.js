@@ -6,9 +6,10 @@ var path = require('path'),
 
 //npm
 var _ = require('lodash');
+
 //npm install wrapper
 var phantomjs = require('phantomjs');
-
+var slimerjs = require('slimerjs');
 
 /**
  * Initializer For Grunt
@@ -59,6 +60,12 @@ exports.init = function (grunt) {
         grunt.verbose.write('Found PhantomJS Executable', phantomjs.path, '\n');
         process.env["PHANTOMJS_EXECUTABLE"] = phantomjs.path;
       }
+
+      if (fs.existsSync(slimerjs.path)) {
+        grunt.verbose.write('Found SlimerJS Executable', slimerjs.path, '\n');
+        process.env["SLIMERJS_EXECUTABLE"] = slimerjs.path;
+      }
+
 
       //Is environment variable `CASPERJS_EXECUTABLE` set?
       if (process.env["CASPERJS_EXECUTABLE"] && fs.existsSync(process.env["CASPERJS_EXECUTABLE"])) {
@@ -117,7 +124,6 @@ exports.init = function (grunt) {
   return {
 
     execute : function (src, dest, options, args, next) {
-      var self = this;
       grunt.verbose.write('Preparing casperjs spawn\n');
       var spawnOpts = [];
       var cwd = options.cwd || process.cwd();
