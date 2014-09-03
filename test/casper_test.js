@@ -15,7 +15,8 @@ function stripRelative(source) {
   return source.replace(/classname="[^"]+"/g,'classname="STRIPPED"')
     .replace(/time="[^"]+"/g,'time="123"')
     .replace(/duration="[^"]+"/g,'duration="123"')
-    .replace(/timestamp="[^"]+"/g,'timestamp="123"');
+    .replace(/timestamp="[^"]+"/g,'timestamp="123"')
+    .replace(/package="[^"]+"/g,'package="STRIPPED"');
 }
 
 exports.casper = {
