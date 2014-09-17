@@ -24,7 +24,8 @@ module.exports = function (grunt) {
 
       var msg = "Casper Task '" + taskName + "' took ~" + new Duration(startTime).milliseconds + "ms to run";
       grunt.log.success(msg);
-      if (grunt.util.kindOf(error) != 'null') {
+      if (grunt.util.kindOf(error) == 'array') error = (error.length > 0);
+      if (error) {
         return done(false);
       }
       done();
@@ -76,7 +77,7 @@ module.exports = function (grunt) {
             if (grunt.option('ignore-fail')) {
               file.src.forEach(function(srcFile) {
                 queue.push({file: srcFile, dest: file.dest}, function (err) {
-                    queue_errors.push(err);
+                  if (err) queue_errors.push(err);
                 });
               });
             } else {
