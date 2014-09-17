@@ -24,7 +24,7 @@ module.exports = function (grunt) {
 
       var msg = "Casper Task '" + taskName + "' took ~" + new Duration(startTime).milliseconds + "ms to run";
       grunt.log.success(msg);
-      if (error) {
+      if (grunt.util.kindOf(error) != 'null') {
         return done(false);
       }
       done();
@@ -49,7 +49,7 @@ module.exports = function (grunt) {
         delete options.concurrency;
       }
 
-      if (grunt.option('force')) {
+      if (grunt.option('ignore-fail')) {
         var queue_errors = [];
         var queue = grunt.util.async.queue(function (task, callback) {
             casperLib.execute(task.file, task.dest !== 'src' ? task.dest : null, options, args, function(err) {
@@ -73,7 +73,7 @@ module.exports = function (grunt) {
 
           //Run Tests In Parallel
           if (file.src) {
-            if (grunt.option('force')) {
+            if (grunt.option('ignore-fail')) {
               file.src.forEach(function(srcFile) {
                 queue.push({file: srcFile, dest: file.dest}, function (err) {
                     queue_errors.push(err);
@@ -84,7 +84,7 @@ module.exports = function (grunt) {
                 //Spawn Child Process
                 casperLib.execute(srcFile, file.dest !== 'src' ? file.dest : null, options, args, next);
               }, function(err) {
-                if (err) grunt.log.write('error:', err);
+                if (err) grunt.log.writeln('error:', err);
                 //Call Done and Log Duration
                 iteratorCb(err);
               });
