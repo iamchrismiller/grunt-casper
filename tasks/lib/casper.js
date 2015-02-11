@@ -180,7 +180,7 @@ exports.init = function (grunt) {
       }
 
       if (typeof src === 'object') {
-        src.filter(function (file) {
+        src.reverse().filter(function (file) {
           if (!grunt.file.exists(file)) {
             grunt.log.warn('Source file "' + file + '" not found.');
             return false;

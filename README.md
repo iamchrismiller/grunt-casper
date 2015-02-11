@@ -200,6 +200,7 @@ global node_modules directory (/usr/local/lib/node_modules)
 
 ## Release History
 
+ * 2015-02-11   v0.4.2   Reverse Source List before unshift
  * 2014-08-19   v0.4.1   Expose Slimerjs binary export
  * 2014-08-19   v0.4.0   Refactored Fail cases
  * 2014-07-16   v0.3.10  Added local binary module path
