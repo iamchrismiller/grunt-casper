@@ -21,7 +21,6 @@ module.exports = function (grunt) {
     //Once Current Task is complete
     //Log Duration and Finish
     function taskComplete(error) {
-
       var msg = "Casper Task '" + taskName + "' took ~" + new Duration(startTime).milliseconds + "ms to run";
       grunt.log.success(msg);
       if (error) {
@@ -31,56 +30,64 @@ module.exports = function (grunt) {
     }
 
     grunt.verbose.writeflags(args, 'Arguments');
+    if(this.files.length > 0) {
+      grunt.util.async.forEachSeries(this.files, function(file, iteratorCb) {
 
-    grunt.util.async.forEachSeries(this.files, function(file, iteratorCb) {
+        if (file.src.length) {
 
-      if (file.src.length) {
-        //Allow Files in each task to be run concurrently
-        if (options.parallel) {
-          //Don't Pass this through to spawn
-          delete options.parallel;
-          //https://github.com/gruntjs/grunt-contrib-sass/issues/16
-          //Set Default Concurrency at 5 (Supposed Memory Leak > 10)
-          var concurrency = 5;
-          if (options.concurrency) {
-            if (options.concurrency > 10 ) {
-              grunt.verbose.writeln('Concurrency Too High. Max 10, updating to 10.');
-              concurrency = 10;
-            } else if (options.concurrency < 1) {
-              grunt.verbose.writeln('Concurrency Too Low. Min 1, updating to default 5.');
-            } else {
-              concurrency = options.concurrency;
-            }
+          //Allow Files in each task to be run concurrently
+          if (options.parallel) {
             //Don't Pass this through to spawn
-            delete options.concurrency;
-          }
-          //Run Tests In Parallel
-          if (file.src) {
-            grunt.util.async.forEachLimit(file.src, concurrency, function(srcFile, next) {
-              //Spawn Child Process
-              casperLib.execute(srcFile, file.dest !== 'src' ? file.dest : null, options, args, next);
-            }, function(err) {
-              if (err) grunt.log.write('error:', err);
-              //Call Done and Log Duration
-              iteratorCb(err);
-            });
+            delete options.parallel;
+            //https://github.com/gruntjs/grunt-contrib-sass/issues/16
+            //Set Default Concurrency at 5 (Supposed Memory Leak > 10)
+            var concurrency = 5;
+            if (options.concurrency) {
+              if (options.concurrency > 10 ) {
+                grunt.verbose.writeln('Concurrency Too High. Max 10, updating to 10.');
+                concurrency = 10;
+              } else if (options.concurrency < 1) {
+                grunt.verbose.writeln('Concurrency Too Low. Min 1, updating to default 5.');
+              } else {
+                concurrency = options.concurrency;
+              }
+              //Don't Pass this through to spawn
+              delete options.concurrency;
+            }
+            //Run Tests In Parallel
+            if (file.src) {
+              grunt.util.async.forEachLimit(file.src, concurrency, function(srcFile, next) {
+                //Spawn Child Process
+                casperLib.execute(srcFile, file.dest !== 'src' ? file.dest : null, options, args, next);
+              }, function(err) {
+                if (err) grunt.log.write('error:', err);
+                //Call Done and Log Duration
+                iteratorCb(err);
+              });
+            }
+          } else {
+
+            if (file.src) {
+
+              casperLib.execute(file.src, file.dest, options, args, function(err) {
+                //Call Done and Log Duration
+                iteratorCb(err);
+              });
+            }
           }
         } else {
-
-          if (file.src) {
-            casperLib.execute(file.src, file.dest, options, args, function(err) {
-              //Call Done and Log Duration
-              iteratorCb(err);
-            });
-          }
+          grunt.fail.warn('Unable to compile; no valid source files were found.');
         }
-      } else {
-        grunt.fail.warn('Unable to compile; no valid source files were found.');
+
+      }, function(err) {
+        taskComplete(err);
+      });
+    }else{
+      if (this.data['folder'] && this.data['folder'].length > 0){
+        casperLib.execute(this.data['folder'], null, options, args, function(err){
+          taskComplete(err);
+        });
       }
-
-    }, function(err) {
-      taskComplete(err);
-    });
-
+    }
   });
 };

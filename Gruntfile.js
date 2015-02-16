@@ -127,7 +127,13 @@ module.exports = function (grunt) {
         files : {
           'tmp/casper/testIncludes-results.xml' : ['test/fixtures/includes/testIncludes.js']
         }
-      }
+      },
+			folder : {
+        options : {
+          includes : 'test/fixtures/includes/inc.js'
+        },
+				folder : 'test/folder-test/'	
+			}
     },
 
     clean : {
