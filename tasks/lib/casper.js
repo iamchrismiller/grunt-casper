@@ -97,8 +97,6 @@ exports.init = function (grunt) {
 
       grunt.verbose.write('Found CasperJS Executable', casperBin);
 
-      var out = '';
-
       //Spawn Casper Process
       var child = grunt.util.spawn({
         cmd  : casperBin,
@@ -115,17 +113,14 @@ exports.init = function (grunt) {
           return next(true);
         }
 
-        if (result.stdout) grunt.log.write(result.stdout + '\n\n');
-        if (result.stderr) grunt.log.write(result.stderr + '\n\n');
-
-        grunt.log.writeln(out);
+        if (result.stdout) grunt.log.write('\n' + result.stdout + '\n\n');
+        if (result.stderr) grunt.log.write('\n' + result.stderr + '\n\n');
 
         next();
       });
 
       child.stdout.on('data', function(buf) {
         grunt.log.write('.');
-        out += String(buf);
       });
 
     }
