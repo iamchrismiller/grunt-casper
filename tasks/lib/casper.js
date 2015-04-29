@@ -119,10 +119,6 @@ exports.init = function (grunt) {
         next();
       });
 
-      child.stdout.on('data', function(buf) {
-        grunt.log.write('.');
-      });
-
     }
   };
 
