@@ -11,6 +11,11 @@ var _ = require('lodash');
 var phantomjs = require('phantomjs');
 var slimerjs = require('slimerjs');
 
+function getTeamCityNowDate() {
+  var date = new Date();
+  return date.toISOString().replace("Z", "+0000");;
+}
+
 /**
  * Initializer For Grunt
  * @param grunt
@@ -102,9 +107,9 @@ exports.init = function(grunt) {
         cmd: casperBin,
         args: args,
         opts: {
-          cwd: cwd,
-          //see CasperJs output live
-          stdio: 'inherit'
+          cwd: cwd //,
+            //see CasperJs output live
+            // stdio: 'inherit'
         }
       }, function(errorObj, result, code) {
 
@@ -113,8 +118,10 @@ exports.init = function(grunt) {
           return next(true);
         }
 
+        grunt.log.write("##teamcity[testSuiteStarted name='" + args[1] + "' timestamp='" + getTeamCityNowDate() + "']\n");
         if (result.stdout) grunt.log.write(result.stdout + '\n\n');
         if (result.stderr) grunt.log.write(result.stderr + '\n\n');
+        grunt.log.write("##teamcity[testSuiteFinished name='" + args[1] + "' timestamp='" + getTeamCityNowDate() + "']\n");
         next();
       });
     }
