@@ -5,13 +5,13 @@
 var Duration = require("duration");
 
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
   //Retrieve Casper Lib
   var casperLib = require('./lib/casper').init(grunt);
 
 
-  grunt.registerMultiTask('casper', 'execute casperjs tasks', function () {
+  grunt.registerMultiTask('casper', 'execute casperjs tasks', function() {
     var args = Array.prototype.slice.call(arguments),
       options = this.options(),
       done = this.async(),
@@ -43,7 +43,7 @@ module.exports = function (grunt) {
           //Set Default Concurrency at 5 (Supposed Memory Leak > 10)
           var concurrency = 5;
           if (options.concurrency) {
-            if (options.concurrency > 10 ) {
+            if (options.concurrency > 10) {
               grunt.verbose.writeln('Concurrency Too High. Max 10, updating to 10.');
               concurrency = 10;
             } else if (options.concurrency < 1) {

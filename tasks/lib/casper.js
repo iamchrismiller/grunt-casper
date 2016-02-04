@@ -11,34 +11,39 @@ var _ = require('lodash');
 var phantomjs = require('phantomjs');
 var slimerjs = require('slimerjs');
 
+function getTeamCityNowDate() {
+  var date = new Date();
+  return date.toISOString().replace("Z", "+0000");;
+}
+
 /**
  * Initializer For Grunt
  * @param grunt
  */
-exports.init = function (grunt) {
+exports.init = function(grunt) {
   'use strict';
 
   var casper = {
 
-    testableOptions : {
-      pre         : true,
-      post        : true,
-      includes    : true,
-      verbose     : true,
-      'log-level' : true,
-      'fail-fast' : true,
-      'concise'   : true,
-      'xunit'     : true,
-      'no-colors' : true
+    testableOptions: {
+      pre: true,
+      post: true,
+      includes: true,
+      verbose: true,
+      'log-level': true,
+      'fail-fast': true,
+      'concise': true,
+      'xunit': true,
+      'no-colors': true
     },
 
-    supportedEngines : [
+    supportedEngines: [
       'phantomjs',
       'slimerjs'
     ],
 
 
-    modulePaths : [
+    modulePaths: [
       path.resolve(__dirname, '../../node_modules'), //local
       path.resolve(__dirname, '../../..'), //sibling
       '/usr/local/lib/node_modules' //global
@@ -50,7 +55,7 @@ exports.init = function (grunt) {
      * @param args
      * @param next
      */
-    spawn : function (cwd, args, next) {
+    spawn: function(cwd, args, next) {
       grunt.verbose.write('Spawning casperjs with args: ', args, '\n');
       //No CasperBin Found Yet
       var casperBin = null;
@@ -77,7 +82,7 @@ exports.init = function (grunt) {
           moduleBinPath = "/casperjs/bin/casperjs";
 
         //Loop through local/global node_modules dirs
-        casper.modulePaths.every(function (path) {
+        casper.modulePaths.every(function(path) {
           var moduleBin = path + moduleBinPath + (isWindows ? ".exe" : "");
 
           if (fs.existsSync(moduleBin)) {
@@ -99,22 +104,24 @@ exports.init = function (grunt) {
 
       //Spawn Casper Process
       grunt.util.spawn({
-        cmd  : casperBin,
-        args : args,
-        opts : {
-          cwd   : cwd,
-          //see CasperJs output live
-          stdio : 'inherit'
+        cmd: casperBin,
+        args: args,
+        opts: {
+          cwd: cwd //,
+            //see CasperJs output live
+            // stdio: 'inherit'
         }
-      }, function (errorObj, result, code) {
+      }, function(errorObj, result, code) {
 
         if (code > 0) {
           grunt.log.error(result.stdout);
           return next(true);
         }
 
+        grunt.log.write("##teamcity[testSuiteStarted name='" + args[1] + "' timestamp='" + getTeamCityNowDate() + "']\n");
         if (result.stdout) grunt.log.write(result.stdout + '\n\n');
         if (result.stderr) grunt.log.write(result.stderr + '\n\n');
+        grunt.log.write("##teamcity[testSuiteFinished name='" + args[1] + "' timestamp='" + getTeamCityNowDate() + "']\n");
         next();
       });
     }
@@ -123,7 +130,7 @@ exports.init = function (grunt) {
 
   return {
 
-    execute : function (src, dest, options, args, next) {
+    execute: function(src, dest, options, args, next) {
       grunt.verbose.write('Preparing casperjs spawn\n');
       var spawnOpts = [];
       var cwd = options.cwd || process.cwd();
@@ -131,7 +138,7 @@ exports.init = function (grunt) {
       //add verbose flag for printing logs to screen
       if (options['log-level'] && !options.verbose) spawnOpts.push('--verbose');
 
-      _.forEach(options, function (value, option) {
+      _.forEach(options, function(value, option) {
         if (!options.test && casper.testableOptions[option]) {
           grunt.log.warn('Option ' + option + ' only available in test mode');
           return;
@@ -150,14 +157,14 @@ exports.init = function (grunt) {
                 options.xunit = options.xunit_out;
               }
               break;
-            case 'args' :
+            case 'args':
               if (args && args.length) spawnOpts.push(args);
-              value.forEach(function (arg) {
+              value.forEach(function(arg) {
                 spawnOpts.push(arg);
               });
               break;
-            //add engine support outside of phantomJS
-            case 'engine' :
+              //add engine support outside of phantomJS
+            case 'engine':
               if (casper.supportedEngines.indexOf(options['engine']) !== -1) {
                 spawnOpts.push('--engine=' + options['engine']);
               } else {
@@ -180,19 +187,19 @@ exports.init = function (grunt) {
       }
 
       if (typeof src === 'object') {
-        src.reverse().filter(function (file) {
+        src.reverse().filter(function(file) {
           if (!grunt.file.exists(file)) {
             grunt.log.warn('Source file "' + file + '" not found.');
             return false;
           }
           return true;
-        }).map(function (file) {
-            //Make path absolute for SlimerJS
-            if (!grunt.file.isPathAbsolute(file)) {
-              file = path.join(cwd, file);
-            }
-            spawnOpts.unshift(file);
-          });
+        }).map(function(file) {
+          //Make path absolute for SlimerJS
+          if (!grunt.file.isPathAbsolute(file)) {
+            file = path.join(cwd, file);
+          }
+          spawnOpts.unshift(file);
+        });
       } else {
         spawnOpts.unshift(src);
       }
