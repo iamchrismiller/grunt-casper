@@ -24,6 +24,7 @@ module.exports = function (grunt) {
 
       var msg = "Casper Task '" + taskName + "' took ~" + new Duration(startTime).milliseconds + "ms to run";
       grunt.log.success(msg);
+      if (grunt.util.kindOf(error) == 'array') error = (error.length > 0);
       if (error) {
         return done(false);
       }
@@ -32,6 +33,37 @@ module.exports = function (grunt) {
 
     grunt.verbose.writeflags(args, 'Arguments');
 
+    if (options.parallel) {
+      //https://github.com/gruntjs/grunt-contrib-sass/issues/16
+      //Set Default Concurrency at 5 (Supposed Memory Leak > 10)
+      var concurrency = 5;
+      if (options.concurrency) {
+        if (options.concurrency > 10 ) {
+          grunt.verbose.writeln('Concurrency Too High. Max 10, updating to 10.');
+          concurrency = 10;
+        } else if (options.concurrency < 1) {
+          grunt.verbose.writeln('Concurrency Too Low. Min 1, updating to default 5.');
+        } else {
+          concurrency = options.concurrency;
+        }
+        //Don't Pass this through to spawn
+        delete options.concurrency;
+      }
+
+      if (grunt.option('ignore-fail')) {
+        var queue_errors = [];
+        var queue = grunt.util.async.queue(function (task, callback) {
+            casperLib.execute(task.file, task.dest !== 'src' ? task.dest : null, options, args, function(err) {
+              callback(err);
+            });
+        }, concurrency);
+
+        queue.drain = function() {
+          taskComplete(queue_errors);
+        };
+      }
+    }
+
     grunt.util.async.forEachSeries(this.files, function(file, iteratorCb) {
 
       if (file.src.length) {
@@ -39,31 +71,26 @@ module.exports = function (grunt) {
         if (options.parallel) {
           //Don't Pass this through to spawn
           delete options.parallel;
-          //https://github.com/gruntjs/grunt-contrib-sass/issues/16
-          //Set Default Concurrency at 5 (Supposed Memory Leak > 10)
-          var concurrency = 5;
-          if (options.concurrency) {
-            if (options.concurrency > 10 ) {
-              grunt.verbose.writeln('Concurrency Too High. Max 10, updating to 10.');
-              concurrency = 10;
-            } else if (options.concurrency < 1) {
-              grunt.verbose.writeln('Concurrency Too Low. Min 1, updating to default 5.');
-            } else {
-              concurrency = options.concurrency;
-            }
-            //Don't Pass this through to spawn
-            delete options.concurrency;
-          }
+
           //Run Tests In Parallel
           if (file.src) {
-            grunt.util.async.forEachLimit(file.src, concurrency, function(srcFile, next) {
-              //Spawn Child Process
-              casperLib.execute(srcFile, file.dest !== 'src' ? file.dest : null, options, args, next);
-            }, function(err) {
-              if (err) grunt.log.write('error:', err);
-              //Call Done and Log Duration
-              iteratorCb(err);
-            });
+            if (grunt.option('ignore-fail')) {
+              file.src.forEach(function(srcFile) {
+                queue.push({file: srcFile, dest: file.dest}, function (err) {
+                  if (err) queue_errors.push(err);
+                });
+              });
+            } else {
+              grunt.util.async.forEachLimit(file.src, concurrency, function(srcFile, next) {
+                //Spawn Child Process
+                casperLib.execute(srcFile, file.dest !== 'src' ? file.dest : null, options, args, next);
+              }, function(err) {
+                if (err) grunt.log.writeln('error:', err);
+                //Call Done and Log Duration
+                iteratorCb(err);
+              });
+            }
+
           }
         } else {
 
