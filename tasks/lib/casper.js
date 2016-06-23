@@ -50,7 +50,7 @@ exports.init = function (grunt) {
      * @param args
      * @param next
      */
-    spawn : function (cwd, args, next) {
+    spawn : function (cwd, args, next, opts) {
       grunt.verbose.write('Spawning casperjs with args: ', args, '\n');
       //No CasperBin Found Yet
       var casperBin = null;
@@ -110,7 +110,11 @@ exports.init = function (grunt) {
 
         if (code > 0) {
           grunt.log.error(result.stdout);
-          return next(true);
+          if(opts.ignoreErrors){
+            return next();
+          } else {
+            return next(true);
+          }
         }
 
         if (result.stdout) grunt.log.write(result.stdout + '\n\n');
@@ -202,7 +206,7 @@ exports.init = function (grunt) {
       }
 
       //Spawn Child Process
-      casper.spawn(cwd, spawnOpts, next);
+      casper.spawn(cwd, spawnOpts, next, options);
     }
   };
 };
