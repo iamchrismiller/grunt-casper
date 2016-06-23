@@ -98,6 +98,10 @@ Specify Browser Engine (phantomjs|slimerjs)
 Type: `Number`
 Default: How many test files to run concurrently (1-10)
 
+#### ignoreErrors
+Type: `Boolean`
+Default: Doesn't exit the process on parallel test runs if a test fails. 
+
 #### parallel
 Type: `Boolean`
 Default: Run tests in Parallel instead of Series
